@@ -21,7 +21,10 @@
 #King: Need to constantly check if the king is in peril
 
 #Scoreboard that keeps track of captured piece values
-import os
+
+import os # to clear the screen
+from move_sets import get_piece
+
 def make_board(mode):
     board = []
     if mode == 1:
@@ -30,21 +33,21 @@ def make_board(mode):
         return board
     elif mode == 2:
         #full standard board
-        board = [((0,0),("W","R")),((1,0),("W","H")),((2,0),("W","B")),((3,0),("W","K")),
-                 ((4,0),("W","Q")),((5,0),("W","B")),((6,0),("W","H")),((7,0),("W","R")),
-                 ((0,1),("W","P")),((1,1),("W","P")),((2,1),("W","P")),((3,1),("W","P")),
-                 ((4,1),("W","P")),((5,1),("W","P")),((6,1),("W","P")),((7,1),("W","P")),
-                 ((0,6),("B","p")),((1,6),("B","p")),((2,6),("B","p")),((3,6),("B","p")),
-                 ((4,6),("B","p")),((5,6),("B","p")),((6,6),("B","p")),((7,6),("B","p")),
-                 ((0,7),("B","h")),((1,7),("B","h")),((2,7),("B","b")),((3,7),("B","k")),
-                 ((4,7),("B","q")),((5,7),("B","b")),((6,7),("B","h")),((7,7),("B","r"))]
+        board = [((1,1),("W","R")),((2,1),("W","H")),((3,1),("W","B")),((4,1),("W","K")),
+                 ((5,1),("W","Q")),((6,1),("W","B")),((7,1),("W","H")),((8,1),("W","R")),
+                 ((1,2),("W","P")),((2,2),("W","P")),((3,2),("W","P")),((4,2),("W","P")),
+                 ((5,2),("W","P")),((6,2),("W","P")),((7,2),("W","P")),((8,2),("W","P")),
+                 ((1,7),("B","p")),((2,7),("B","p")),((3,7),("B","p")),((4,7),("B","p")),
+                 ((5,7),("B","p")),((6,7),("B","p")),((7,7),("B","p")),((8,7),("B","p")),
+                 ((1,8),("B","h")),((2,8),("B","h")),((3,8),("B","b")),((4,8),("B","k")),
+                 ((5,8),("B","q")),((6,8),("B","b")),((7,8),("B","h")),((8,8),("B","r"))]
         return board
     else:
         return board
 
 def draw_line(y_val, board):
     output = "" #starts empty
-    for x_val in range(8):
+    for x_val in range(1,9):
         #x_val, y_val
         #for every x value in the line
         #if that x,y loc is in the board list, then put the piece in the output string
@@ -61,15 +64,17 @@ def draw_line(y_val, board):
                     string = "  "
     #after the entire loop, Draw the String
         output += string
-    print(str(y_val + 1) + output)
+    print(str(y_val) + output)
 
 def draw(board):
     #Clear screen
     os.system('cls')
     #loop through the 2d board and print a piece if there is one at that location
-    for y in range(7,-1,-1):
+    for y in range(8,0,-1):
         draw_line(y, board) #draw entire y line
     #entire board is drawn, maybe add white and black labels?
     print("  1 2 3 4 5 6 7 8") 
+
 board = make_board(1)
 draw(board)
+print(get_piece(board,3,4))
