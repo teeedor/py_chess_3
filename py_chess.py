@@ -1,8 +1,8 @@
 #Third attempt at programming chess in Python
-#design document created
-#do not program anything that has not been fully designed
 
-#pieces are stored in a 2d array
+#pieces are stored as a list of nested tuples ((x_val,y_val),(Color,Type))
+#board[piece index][location or piece][Final Value]
+#board[0][0][1] = first piece in list/coordinates/y coordinate
 #the draw() function iterates through this array and draws the current board
 
 #white goes first
@@ -12,18 +12,11 @@
     #this includes a piece being on the move target
     #or a piece being in the way of the move target
 
-#Basic Movesets for pieces
-#pawn: move one space in color direction, except if first move. can capture diagonal. are transformed when getting to end of board
-#Rook: moves in straight lines, can Castle
-#Knight: Moves in L's, easiest of the high value pieces to program
-#bishops: move in diagonals
-#Queen: combo of Rook and Bishop Movement
-#King: Need to constantly check if the king is in peril
-
+#Basic Movesets for pieces coded in "move_sets.py"
 #Scoreboard that keeps track of captured piece values
 
 import os # to clear the screen
-from move_sets import get_piece
+from move_sets import get_piece, in_move_set
 
 def make_board(mode):
     board = []
@@ -46,18 +39,16 @@ def make_board(mode):
         return board
 
 def draw_line(y_val, board):
-    output = "" #starts empty
+    output = "" 
     for x_val in range(1,9):
-        #x_val, y_val
-        #for every x value in the line
-        #if that x,y loc is in the board list, then put the piece in the output string
+        #loop through x vals, populate output string with piece or no piece
         for piece in board:
             if piece[0][0] == x_val and piece[0][1] == y_val:
                 string = " " + piece[1][1]
-                break # can only be one piece at location, so break out of loop
-                #if there is a piece at the current board location
+                #Only one piece can be at loc, so break from loop
+                break 
             else:
-                #if there is no piece at board location
+                #No piece at loc, draw checkerboard
                 if (x_val % 2 + y_val) % 2 == 1:
                     string = " #"
                 else:
@@ -67,14 +58,18 @@ def draw_line(y_val, board):
     print(str(y_val) + output)
 
 def draw(board):
-    #Clear screen
-    os.system('cls')
-    #loop through the 2d board and print a piece if there is one at that location
+    os.system('cls') #Clear screen
+    #Draw each horizontal line of the board from top to bottom
     for y in range(8,0,-1):
-        draw_line(y, board) #draw entire y line
-    #entire board is drawn, maybe add white and black labels?
+        #Draw entire y_val line
+        draw_line(y, board)
+    #Coordinate Marks
     print("  1 2 3 4 5 6 7 8") 
 
+#init Logic
 board = make_board(1)
 draw(board)
-print(get_piece(board,3,4))
+if (in_move_set("R","W",1,1,2,8)):
+    print("Valid Move!")
+else:
+    print("Not Valid Move :'(")
