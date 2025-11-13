@@ -26,7 +26,18 @@ def make_board(mode):
     board = []
     if mode == 1:
         #sparsly populated board
-        board = [((3,4),("W","K")),((7,2),("B","p")),((2,2),("W","P")),((8,1),("B","h"))]
+        board = [((3,4),("W","K")),((7,2),("B","p")),((2,2),("W","P")),((7,1),("B","h"))]
+        return board
+    elif mode == 2:
+        #full standard board
+        board = [((0,0),("W","R")),((1,0),("W","H")),((2,0),("W","B")),((3,0),("W","K")),
+                 ((4,0),("W","Q")),((5,0),("W","B")),((6,0),("W","H")),((7,0),("W","R")),
+                 ((0,1),("W","P")),((1,1),("W","P")),((2,1),("W","P")),((3,1),("W","P")),
+                 ((4,1),("W","P")),((5,1),("W","P")),((6,1),("W","P")),((7,1),("W","P")),
+                 ((0,6),("B","p")),((1,6),("B","p")),((2,6),("B","p")),((3,6),("B","p")),
+                 ((4,6),("B","p")),((5,6),("B","p")),((6,6),("B","p")),((7,6),("B","p")),
+                 ((0,7),("B","h")),((1,7),("B","h")),((2,7),("B","b")),((3,7),("B","k")),
+                 ((4,7),("B","q")),((5,7),("B","b")),((6,7),("B","h")),((7,7),("B","r"))]
         return board
     else:
         return board
@@ -37,18 +48,26 @@ def draw_line(y_val, board):
         #x_val, y_val
         #for every x value in the line
         #if that x,y loc is in the board list, then put the piece in the output string
-            #if there is a piece at the current board location
-            # 
-        else:
-            #if there is no piece at board location
-            output = output + "X" 
+        for piece in board:
+            if piece[0][0] == x_val and piece[0][1] == y_val:
+                string = " " + piece[1][1]
+                break # can only be one piece at location, so break out of loop
+                #if there is a piece at the current board location
+            else:
+                #if there is no piece at board location
+                if x_val % 2 == 0 or y_val % 2 == 0:
+                    string = " #"
+                else:
+                    string = "  "
     #after the entire loop, Draw the String
+        output += string
     print(output)
 
 def draw(board):
     #loop through the 2d board and print a piece if there is one at that location
-    for y in range(8):
+    for y in range(7,-1,-1):
         draw_line(y, board) #draw entire y line
     #entire board is drawn, maybe add white and black labels?
     
-
+board = make_board(2)
+draw(board)
