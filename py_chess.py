@@ -21,7 +21,7 @@
 #King: Need to constantly check if the king is in peril
 
 #Scoreboard that keeps track of captured piece values
-
+import os
 def make_board(mode):
     board = []
     if mode == 1:
@@ -55,19 +55,21 @@ def draw_line(y_val, board):
                 #if there is a piece at the current board location
             else:
                 #if there is no piece at board location
-                if x_val % 2 == 0 or y_val % 2 == 0:
+                if (x_val % 2 + y_val) % 2 == 1:
                     string = " #"
                 else:
                     string = "  "
     #after the entire loop, Draw the String
         output += string
-    print(output)
+    print(str(y_val + 1) + output)
 
 def draw(board):
+    #Clear screen
+    os.system('cls')
     #loop through the 2d board and print a piece if there is one at that location
     for y in range(7,-1,-1):
         draw_line(y, board) #draw entire y line
     #entire board is drawn, maybe add white and black labels?
-    
-board = make_board(2)
+    print("  1 2 3 4 5 6 7 8") 
+board = make_board(1)
 draw(board)
