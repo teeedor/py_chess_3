@@ -15,8 +15,40 @@ def get_piece(board,x,y):
             output = ("N","N")
     return output
 
+def is_valid_move(board,piece_index,xs,ys,xt,yt):
+    VERBOSE = True
+    #checks if the move is valid based on board state
+    empty_target = False
+    #checks if there is a piece in target location
+    target_piece = get_piece(board,xt,yt)
+    source_piece = get_piece(board,xs,ys)
+    if (target_piece == ("N","N")):
+        if VERBOSE:
+            print("Empty Target Location")
+        empty_target = True
+    else:
+        if VERBOSE:
+            print("Filled Target Location")
+        empty_target = False 
+    if source_piece[1] == "H" or source_piece[1] == "h":
+        #knight Expection, can jump
+        if VERBOSE:
+            print("Knight")
+        return True
+    if source_piece[1] == "R" or source_piece[1] == "r":
+        #Rook, look for something in the way 
+        deltax = xt - xs
+        deltay = yt - ys
+        if deltax == 0:
+            while(deltay < 0):
+                
+                deltay += 1
+
+    #checks if can capture based on color 
+    #checks if something is in the way of movement for pieces
 #only checks if the piece can make that move, regardless of board
 #input: start loc and target loc
+
 def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     VERBOSE = True
     #Check if the input values are valid
@@ -64,6 +96,7 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
 
     #QUEEN
     if ptype == "Q" or ptype == "q":
+        print("QUEEN")
         #combine Bishop and rook movesets
     #KING
     if ptype == "K" or ptype == "k":

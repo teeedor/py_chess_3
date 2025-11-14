@@ -66,6 +66,14 @@ def draw(board):
     #Coordinate Marks
     print("  1 2 3 4 5 6 7 8") 
 
+def make_move(board,piece_index,xs,ys,xt,yt):
+    #if move is in moveset
+    if (in_move_set(board[piece_index][1][1],board[piece_index][1][0],xs,ys,xt,yt)):
+        #if move is allowed by board state
+        #move is to empty space
+        target_piece = get_piece(board,xt,yt)
+        source_piece = get_piece(board,xs,ys)
+
 #init Logic
 b = make_board(2)
 draw(b)
@@ -75,6 +83,7 @@ draw(b)
 #in_move_set("B","W",1,2,3,4) #good
 #in_move_set("B","W",7,1,2,6) #good
 #in_move_set("B","W",7,1,1,1) #bad
-in_move_set("H","W",1,1,2,3) #good
-in_move_set("H","W",3,3,1,2) #good
-in_move_set("H","W",3,3,3,2) #bad
+#in_move_set("H","W",1,1,2,3) #good
+#in_move_set("H","W",3,3,1,2) #good
+#in_move_set("H","W",3,3,3,2) #bad
+#WORKING ON MAKE_MOVE() and IS_VALID_MOVE() RIGHT NOW
