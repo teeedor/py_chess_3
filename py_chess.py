@@ -67,9 +67,14 @@ def draw(board):
     print("  1 2 3 4 5 6 7 8") 
 
 #init Logic
-board = make_board(1)
-draw(board)
-if (in_move_set("R","W",1,1,2,8)):
-    print("Valid Move!")
-else:
-    print("Not Valid Move :'(")
+b = make_board(2)
+draw(b)
+#in_move_set("R","W",1,1,8,1) #good
+#in_move_set("R","W",1,1,8,8) #bad
+#in_move_set("B","W",8,8,1,1) #good
+#in_move_set("B","W",1,2,3,4) #good
+#in_move_set("B","W",7,1,2,6) #good
+#in_move_set("B","W",7,1,1,1) #bad
+in_move_set("H","W",1,1,2,3) #good
+in_move_set("H","W",3,3,1,2) #good
+in_move_set("H","W",3,3,3,2) #bad
