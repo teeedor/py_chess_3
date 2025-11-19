@@ -29,21 +29,43 @@ def is_valid_move(board,piece_index,xs,ys,xt,yt):
     else:
         if VERBOSE:
             print("Filled Target Location")
+
         empty_target = False 
     if source_piece[1] == "H" or source_piece[1] == "h":
         #knight Expection, can jump
         if VERBOSE:
-            print("Knight")
+            print("Knight"):
         return True
     if source_piece[1] == "R" or source_piece[1] == "r":
         #Rook, look for something in the way 
         deltax = xt - xs
         deltay = yt - ys
-        if deltax == 0:
-            while(deltay < 0):
-                
-                deltay += 1
+        if deltax == 0: # vertical Lines
+            if deltay > 0: # positive movement
+                #regular movement
+                for i in range(1, deltay-1):
+                    if get_piece(board,xs,ys+i) != ("N","N"):
+                        #piece in the way
+                        return False
+            else: # negative movement
+                for i in range(-1, deltay+1):
+                    if get_piece(board,xs,ys-i) != ("N","N"):
+                        #piece in the way
+                        return False
 
+        if deltay == 0: # Horizontal Lines
+            if deltax > 0: # positive movement
+                #regular movement
+                for i in range(1, deltax-1):
+                    if get_piece(board,xs+i,ys) != ("N","N"):
+                        #piece in the way
+                        return False
+            else: # negative movement
+                for i in range(-1, deltax+1):
+                    if get_piece(board,xs-i,ys) != ("N","N"):
+                        #piece in the way
+                        return False
+        return True
     #checks if can capture based on color 
     #checks if something is in the way of movement for pieces
 #only checks if the piece can make that move, regardless of board
