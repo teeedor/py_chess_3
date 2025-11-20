@@ -14,3 +14,23 @@ move is either valid or not, change the data structure to reflect the move and r
 
 add a scoreboard
 use a graphics library to render a prettier board
+
+CURRENT STATE
+    Piece movesets complete
+    ROOK - DONE
+    BISHOP - NOT DONE
+    PAWN - NOT DONE
+    KNIGHT - NOT DONE
+    QUEEN - NOT DONE
+    KING - NOT DONE
+
+    Check Path for valid move
+    ROOK - DONE
+    BISHOP - NOT DONE
+    PAWN - NOT DONE
+    KNIGHT - NOT DONE
+    QUEEN - NOT DONE
+    KING - NOT DONE
+    
+    Playing the game
+    NOT DONE
