@@ -16,13 +16,14 @@
 #Scoreboard that keeps track of captured piece values
 
 import os # to clear the screen
-from move_sets import get_piece, in_move_set
+from move_sets import get_piece, in_move_set, is_valid_move
 
 def make_board(mode):
     board = []
     if mode == 1:
         #sparsly populated board
-        board = [((3,4),("W","K")),((7,2),("B","p")),((2,2),("W","P")),((7,1),("B","h"))]
+        board = [((2,4),("W","K")),((7,2),("B","p")),((2,2),("W","P")),((7,1),("B","h")),((4,4),("B","r")),
+                 ((6,4),("W","B")),((4,6),("B","b")),((5,2),("W","B")),((4,2),("B","b"))]
         return board
     elif mode == 2:
         #full standard board
@@ -75,7 +76,7 @@ def make_move(board,piece_index,xs,ys,xt,yt):
         source_piece = get_piece(board,xs,ys)
 
 #init Logic
-b = make_board(2)
+b = make_board(1)
 draw(b)
 #in_move_set("R","W",1,1,8,1) #good
 #in_move_set("R","W",1,1,8,8) #bad
@@ -87,3 +88,7 @@ draw(b)
 #in_move_set("H","W",3,3,1,2) #good
 #in_move_set("H","W",3,3,3,2) #bad
 #WORKING ON MAKE_MOVE() and IS_VALID_MOVE() RIGHT NOW
+is_valid_move(b,4,4,4,8)
+is_valid_move(b,4,4,8,4)
+is_valid_move(b,4,4,1,4)
+is_valid_move(b,4,4,4,1)
