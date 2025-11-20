@@ -19,20 +19,24 @@ def is_valid_move(board,xs,ys,xt,yt):
     VERBOSE = True
     #checks if the move is valid based on board state
     empty_target = False
+    can_capture = False
     #checks if there is a piece in target location
     target_piece = get_piece(board,xt,yt)
     source_piece = get_piece(board,xs,ys)
     if (target_piece == ("N","N")):
-        if VERBOSE:
-            print("------------")
-            print("Empty Target Location")
         empty_target = True
     else:
-        if VERBOSE:
-            print("------------")
-            print("Filled Target Location")
-
         empty_target = False 
+        #if pieces are different colors
+        if target_piece[0] != source_piece[0]:
+            #able to capture
+            if VERBOSE:
+                print("Can Capture!")
+            can_capture = True
+        else:
+            if VERBOSE:
+                print("Cannot Capture :(")
+            pass
     if source_piece[1] == "H" or source_piece[1] == "h":
         #knight Expection, can jump
         if VERBOSE:
@@ -43,7 +47,7 @@ def is_valid_move(board,xs,ys,xt,yt):
         deltax = xt - xs
         deltay = yt - ys
         if VERBOSE:
-            #print("Rook")
+            print("Rook is trying to move")
             pass
         if deltax == 0: # Vertical Lines
             if deltay > 0: # positive movement
@@ -54,15 +58,16 @@ def is_valid_move(board,xs,ys,xt,yt):
                         if VERBOSE:
                             print("Piece in the way")
                             print(str(xs) + "," + str(ys+i))
+                            print("Return False")
                         return False      
             else: # negative movement BROKEN
-                for i in range(-1, deltay+1, -1):
-                    print(i)
+                for i in range(-1, deltay, -1):
                     if get_piece(board,xs,ys+i) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
                             print("Piece in the way")
                             print(str(xs) + "," + str(ys+i))
+                            print("Return False")
                         return False
 
         if deltay == 0: # Horizontal Lines
@@ -74,18 +79,32 @@ def is_valid_move(board,xs,ys,xt,yt):
                         if VERBOSE:
                             print("Piece in the way")
                             print(str(xs+i) + "," + str(ys))
+                            print("Return False")
                         return False
-            else: # negative movement
-                for i in range(-1, deltax+1,-1):
+            else: # negative movement BROKEN
+                for i in range(-1, deltax,-1):
                     if get_piece(board,xs+i,ys) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
                             print("Piece in the way")
                             print(str(xs+i) + "," + str(ys))
+                            print("Return False")
                         return False
         if VERBOSE:
             print("No piece in the way!")
-        return True
+        if can_capture and not empty_target:
+            print("There is a piece at the target that I can Capture")
+            print("Return True")
+            return True
+        elif not can_capture and not empty_target:
+            print("Return False")
+            return False
+        elif empty_target:
+            print("Return True")
+            return True
+            print("Nothing to capture")
+
+            
 
     if source_piece[1] == "B" or source_piece[1] == "b":
         #knight Expection, can jump
@@ -123,7 +142,7 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     #ROOK BASIC MOVESET COMPLETE
     if ptype == "R" or ptype == "r":
                 #if one of the deltas is 0, then it has to be in a line
-        if deltax == 0 or deltay == 0:
+        if (deltax == 0 or deltay == 0):
             if VERBOSE:
                 print("Valid Move!") 
             return True
