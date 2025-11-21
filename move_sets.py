@@ -42,6 +42,7 @@ def is_valid_move(board,xs,ys,xt,yt):
         if VERBOSE:
             print("Knight")
         return True
+#BEGIN ROOK
     if source_piece[1] == "R" or source_piece[1] == "r":
         #Rook, look for something in the way 
         deltax = xt - xs
@@ -103,19 +104,19 @@ def is_valid_move(board,xs,ys,xt,yt):
             print("Return True")
             return True
             print("Nothing to capture")
-
+#END ROOK
             
-
     if source_piece[1] == "B" or source_piece[1] == "b":
-        #knight Expection, can jump
+        #check for all four possible cases of Bishop Movement
+        
         if VERBOSE:
             print("Bishop")
          
         #return True
-    #checks if can capture based on color 
-    #checks if something is in the way of movement for pieces
-#only checks if the piece can make that move, regardless of board
-#input: start loc and target loc
+        #checks if can capture based on color 
+        #checks if something is in the way of movement for pieces
+        #only checks if the piece can make that move, regardless of board
+        #input: start loc and target loc
 
 def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     VERBOSE = True

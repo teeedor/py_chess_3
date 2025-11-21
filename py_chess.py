@@ -22,7 +22,8 @@ def make_board(mode):
     board = []
     if mode == 1:
         #sparsly populated board
-        board = [((8,1),("W","K")),((1,8),("B","p")),((6,8),("W","P")),((8,4),("B","h")),((8,8),("B","r")),
+        board = [((8,1),("W","K")),((1,8),("B","p")),((6,8),("W","P")),((8,4),("B","h")),
+                 ((8,8),("B","r")),
                  ((6,4),("W","B")),((4,6),("B","b")),((5,2),("W","B")),((4,2),("B","b"))]
         return board
     elif mode == 2:
@@ -78,15 +79,6 @@ def make_move(board,piece_index,xs,ys,xt,yt):
 #init Logic
 b = make_board(1)
 draw(b)
-#in_move_set("R","W",1,1,8,1) #good
-#in_move_set("R","W",1,1,8,8) #bad
-#in_move_set("B","W",8,8,1,1) #good
-#in_move_set("B","W",1,2,3,4) #good
-#in_move_set("B","W",7,1,2,6) #good
-#in_move_set("B","W",7,1,1,1) #bad
-#in_move_set("H","W",1,1,2,3) #good
-#in_move_set("H","W",3,3,1,2) #good
-#in_move_set("H","W",3,3,3,2) #bad
 #WORKING ON MAKE_MOVE() and IS_VALID_MOVE() RIGHT NOW
 is_valid_move(b,8,8,1,8)
 is_valid_move(b,8,8,8,1)
