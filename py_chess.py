@@ -23,8 +23,8 @@ def make_board(mode):
     if mode == 1:
         #sparsly populated board
         board = [((8,1),("W","K")),((1,8),("B","p")),((6,8),("W","P")),((8,4),("B","h")),
-                 ((8,8),("B","r")),
-                 ((6,4),("W","B")),((4,6),("B","b")),((5,2),("W","B")),((4,2),("B","b"))]
+                 ((6,6),("B","r")),
+                 ((4,4),("W","B")),((6,2),("B","b")),((2,2),("W","B")),((2,6),("B","b"))]
         return board
     elif mode == 2:
         #full standard board
@@ -80,7 +80,10 @@ def make_move(board,piece_index,xs,ys,xt,yt):
 b = make_board(1)
 draw(b)
 #WORKING ON MAKE_MOVE() and IS_VALID_MOVE() RIGHT NOW
-is_valid_move(b,8,8,1,8)
-is_valid_move(b,8,8,8,1)
+#is_valid_move(b,8,8,1,8)
+#is_valid_move(b,8,8,8,1)
 #is_valid_move(b,1,1,1,4)
-#is_valid_move(b,1,1,4,1)
+is_valid_move(b,4,4,7,1)
+is_valid_move(b,4,4,7,7)
+is_valid_move(b,4,4,1,7)
+is_valid_move(b,4,4,1,1)

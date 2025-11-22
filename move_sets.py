@@ -105,13 +105,57 @@ def is_valid_move(board,xs,ys,xt,yt):
             return True
             print("Nothing to capture")
 #END ROOK
-            
+#BEGIN BISHOP 
     if source_piece[1] == "B" or source_piece[1] == "b":
         #check for all four possible cases of Bishop Movement
-        
+        deltax = xt - xs
+        deltay = yt - ys
+        if deltax > 0:
+            if deltay > 0: # pos x pos y
+                print("HERE")
+                for j in range(1, deltay):
+                    print(j)
+                    if get_piece(board,xs+j,ys+j) != ("N","N"):
+                        #piece in the way
+                        if VERBOSE:
+                            print("Piece in the way")
+                            print(str(xs+j) + "," + str(ys+j))
+                            print("Return False")
+                        return False      
+            else: # pos x neg y
+                for i in range(1, deltax):
+                    print(i)
+                    if get_piece(board,xs+i,ys-i) != ("N","N"):
+                        #piece in the way
+                        if VERBOSE:
+                            print("Piece in the way")
+                            print(str(xs+i) + "," + str(ys-i))
+                            print("Return False")
+                        return False      
+        else:
+            if deltay > 0: # neg x pos y
+                for i in range(1, deltay):
+                    print(i)
+                    if get_piece(board,xs-i,ys+i) != ("N","N"):
+                        #piece in the way
+                        if VERBOSE:
+                            print("Piece in the way")
+                            print(str(xs-i) + "," + str(ys+i))
+                            print("Return False")
+                        return False      
+            else: # neg x neg y
+                for i in range(1, abs(deltax)):
+                    print(i)
+                    if get_piece(board,xs-i,ys-i) != ("N","N"):
+                        #piece in the way
+                        if VERBOSE:
+                            print("Piece in the way")
+                            print(str(xs-i) + "," + str(ys-i))
+                            print("Return False")
+                        return False      
         if VERBOSE:
             print("Bishop")
-         
+#END BISHOP         
         #return True
         #checks if can capture based on color 
         #checks if something is in the way of movement for pieces
