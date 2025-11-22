@@ -22,9 +22,9 @@ def make_board(mode):
     board = []
     if mode == 1:
         #sparsly populated board
-        board = [((8,1),("W","K")),((1,8),("B","p")),((6,8),("W","P")),((8,4),("B","h")),
+        board = [((6,3),("W","H")),((5,2),("W","P")),((3,2),("W","P")),((2,3),("B","h")),
                  ((6,6),("B","r")),
-                 ((4,4),("W","B")),((6,2),("B","b")),((2,2),("W","B")),((2,6),("B","b"))]
+                 ((4,4),("W","H")),((6,2),("B","b")),((2,2),("W","B")),((2,6),("B","b"))]
         return board
     elif mode == 2:
         #full standard board
@@ -83,7 +83,9 @@ draw(b)
 #is_valid_move(b,8,8,1,8)
 #is_valid_move(b,8,8,8,1)
 #is_valid_move(b,1,1,1,4)
-is_valid_move(b,4,4,7,1)
-is_valid_move(b,4,4,7,7)
-is_valid_move(b,4,4,1,7)
-is_valid_move(b,4,4,1,1)
+#is_valid_move(b,4,4,7,1)
+#is_valid_move(b,4,4,7,7)
+#is_valid_move(b,4,4,1,7)
+#is_valid_move(b,4,4,1,1)
+is_valid_move(b,4,4,6,3)
+is_valid_move(b,4,4,5,2)

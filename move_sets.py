@@ -37,11 +37,19 @@ def is_valid_move(board,xs,ys,xt,yt):
             if VERBOSE:
                 print("Cannot Capture :(")
             pass
+#BEGIN KNIGHT
     if source_piece[1] == "H" or source_piece[1] == "h":
-        #knight Expection, can jump
+        #knight Exception, can jump
         if VERBOSE:
             print("Knight")
+        if not empty_target and not can_capture:
+            if VERBOSE:
+                print("Target piece is same color")
+                print(str(xt) + "," + str(yt))
+                print("Return False")
+            return False
         return True
+#END KNIGHT
 #BEGIN ROOK
     if source_piece[1] == "R" or source_piece[1] == "r":
         #Rook, look for something in the way 
