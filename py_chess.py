@@ -1,5 +1,5 @@
 #Third attempt at programming chess in Python
-
+#change
 #pieces are stored as a list of nested tuples ((x_val,y_val),(Color,Type))
 #board[piece index][location or piece][Final Value]
 #board[0][0][1] = first piece in list/coordinates/y coordinate
