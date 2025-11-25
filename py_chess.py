@@ -17,6 +17,10 @@
 import os # to clear the screen
 from move_sets import get_piece, in_move_set, is_valid_move
 
+red = "\033[91m"
+green = "\033[92m"
+reset = "\033[0m"
+VERBOSE = True
 def make_board(mode):
     board = []
     if mode == 1:
@@ -35,6 +39,11 @@ def make_board(mode):
                  ((5,7),("B","p")),((6,7),("B","p")),((7,7),("B","p")),((8,7),("B","p")),
                  ((1,8),("B","h")),((2,8),("B","h")),((3,8),("B","b")),((4,8),("B","k")),
                  ((5,8),("B","q")),((6,8),("B","b")),((7,8),("B","h")),((8,8),("B","r"))]
+        return board
+    elif mode == 3:
+        #Rook Test Board
+        board = [((4,4),("W","R")),((6,4),("B","h")),((2,4),("B","b")),((4,6),("B","k")),
+                 ((4,2),("B","r")),((2,1),("B","h")),((3,1),("B","b")),((8,1),("B","k"))]
         return board
     else:
         return board
@@ -74,17 +83,34 @@ def make_move(board,piece_index,xs,ys,xt,yt):
         #move is to empty space
         target_piece = get_piece(board,xt,yt)
         source_piece = get_piece(board,xs,ys)
-
-#init Logic
-b = make_board(1)
-draw(b)
-#WORKING ON MAKE_MOVE() and IS_VALID_MOVE() RIGHT NOW
-#is_valid_move(b,8,8,1,8)
-#is_valid_move(b,8,8,8,1)
-#is_valid_move(b,1,1,1,4)
-#is_valid_move(b,4,4,7,1)
-#is_valid_move(b,4,4,7,7)
-#is_valid_move(b,4,4,1,7)
-#is_valid_move(b,4,4,1,1)
-is_valid_move(b,4,4,6,3)
-is_valid_move(b,4,4,5,2)
+#Make Testing Functions
+def test_rook():
+    valid, wrong = 0,0
+    #Standard Rook Testing Board
+    b1 = [((4,4),("W","R")),
+                           ((6,4),("B","h")),((2,4),("B","b")),((4,6),("B","k")),
+         ((4,2),("B","r"))]
+    moves1 = [(4,4,7,4,False),(4,4,4,7,False),(4,4,1,4,False),(4,4,4,1,False),
+              (4,4,6,4,True),(4,4,4,6,True),(4,4,2,4,True),(4,4,4,2,True),
+              (4,2,9,2,False),(4,2,-2,2,False),(4,2,4,-2,False)]
+    
+    draw(b1)
+    for move in moves1:
+        xs,ys,xt,yt = move[0], move[1], move[2], move[3]
+        expected = move[4]
+        in_set_ex, is_val_ex = False, False
+        
+        if (in_move_set("R","W",xs,ys,xt,yt) == expected):
+            in_set_ex = True
+        if (is_valid_move(b1,xs,ys,xt,yt) == expected):             
+            in_val_ex = True
+        # check if move is both valid and in moveset
+        if in_set_ex and in_val_ex:
+            valid += 1
+            print(green + "good" + reset)
+        else:
+            wrong += 1
+            print(red + "bad" + reset)
+    print( green + "Tests Passed: " + str(valid) + reset )
+    print( red + "Tests Failed: " + str(wrong) + reset )
+test_rook()
