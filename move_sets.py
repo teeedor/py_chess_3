@@ -134,49 +134,56 @@ def is_valid_move(board,xs,ys,xt,yt):
         deltay = yt - ys
         if deltax > 0:
             if deltay > 0: # pos x pos y
-                print("HERE")
-                for j in range(1, deltay):
-                    print(j)
-                    if get_piece(board,xs+j,ys+j) != ("N","N"):
+               for i in range(1, deltay):
+                    if get_piece(board,xs+i,ys+i) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs+j) + "," + str(ys+j))
-                            print("Return False")
+                            print("Piece in the way ("+ str(xs+i) + "," + str(ys+i)+")")
                         return False      
             else: # pos x neg y
                 for i in range(1, deltax):
-                    print(i)
                     if get_piece(board,xs+i,ys-i) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs+i) + "," + str(ys-i))
-                            print("Return False")
+                            print("Piece in the way ("+ str(xs+i) + "," + str(ys-i)+")")
                         return False      
         else:
             if deltay > 0: # neg x pos y
                 for i in range(1, deltay):
-                    print(i)
                     if get_piece(board,xs-i,ys+i) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs-i) + "," + str(ys+i))
-                            print("Return False")
+                            print("Piece in the way ("+ str(xs-i) + "," + str(ys+i)+")")
                         return False      
             else: # neg x neg y
                 for i in range(1, abs(deltax)):
-                    print(i)
                     if get_piece(board,xs-i,ys-i) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs-i) + "," + str(ys-i))
-                            print("Return False")
+                            print("Piece in the way ("+ str(xs-i) + "," + str(ys-i)+")")
                         return False      
         if VERBOSE:
             print("Bishop")
+        if VERBOSE:
+            print("No piece in the way!")
+        if can_capture and not empty_target:
+            if VERBOSE:
+                pass
+            #   print("There is a piece at the target that I can Capture")
+            #   print("Return True")
+            return True
+        elif not can_capture and not empty_target:
+            if VERBOSE:
+                pass
+            #    print("Return False")
+            return False
+        elif empty_target:
+            if VERBOSE:
+                pass
+            #    print("Return True")
+            return True
+
+
 #END BISHOP         
         #return True
         #checks if can capture based on color 
