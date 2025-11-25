@@ -89,28 +89,35 @@ def test_rook():
     #Standard Rook Testing Board
     b1 = [((4,4),("W","R")),
                            ((6,4),("B","h")),((2,4),("B","b")),((4,6),("B","k")),
-         ((4,2),("B","r"))]
+         ((4,2),("B","r")),((3,5),("B","r"))]
+    # first four moves check collision detection
     moves1 = [(4,4,7,4,False),(4,4,4,7,False),(4,4,1,4,False),(4,4,4,1,False),
+              # Second Four Moves checking capture
               (4,4,6,4,True),(4,4,4,6,True),(4,4,2,4,True),(4,4,4,2,True),
-              (4,2,9,2,False),(4,2,-2,2,False),(4,2,4,-2,False)]
+              # Third 4 Moves checking for moving off the board
+              (4,2,9,2,False),(4,2,-2,2,False),(4,2,4,-2,False),(3,5,3,9,False)]
     
     draw(b1)
     for move in moves1:
-        xs,ys,xt,yt = move[0], move[1], move[2], move[3]
-        expected = move[4]
-        in_set_ex, is_val_ex = False, False
-        
-        if (in_move_set("R","W",xs,ys,xt,yt) == expected):
-            in_set_ex = True
-        if (is_valid_move(b1,xs,ys,xt,yt) == expected):             
-            in_val_ex = True
-        # check if move is both valid and in moveset
-        if in_set_ex and in_val_ex:
+        xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        actual = False
+
+        if is_valid_move(b1,xs,ys,xt,yt):             
+            if in_move_set("R","W",xs,ys,xt,yt):
+                actual = True
+            else:
+                actual = False
+        else:
+            actual = False
+        # Keeping track of Passed and Failed Tests
+        if actual == expected:
             valid += 1
-            print(green + "good" + reset)
         else:
             wrong += 1
-            print(red + "bad" + reset)
+
+        # check if move is both valid and in moveset
+        #print(in_set_ex, in_val_ex)
     print( green + "Tests Passed: " + str(valid) + reset )
     print( red + "Tests Failed: " + str(wrong) + reset )
-test_rook()
+
+test_rook() # run the tests

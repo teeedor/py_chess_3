@@ -28,9 +28,15 @@ def is_valid_move(board,xs,ys,xt,yt):
     #checks if there is a piece in target location
     target_piece = get_piece(board,xt,yt)
     source_piece = get_piece(board,xs,ys)
+    p_type = "Rook" if (source_piece[1] == "R" or source_piece[1] == "r") else "Piece"
+    p_type = "Bishop" if (source_piece[1] == "B" or source_piece[1] == "b") else "Piece"
+    p_type = "Queen" if (source_piece[1] == "Q" or source_piece[1] == "q") else "Piece"
+    p_type = "Pawn" if (source_piece[1] == "P" or source_piece[1] == "p") else "Piece"
+    p_type = "King" if (source_piece[1] == "K" or source_piece[1] == "k") else "Piece"
+    p_type = "Knight" if (source_piece[1] == "H" or source_piece[1] == "h") else "Piece"
     if VERBOSE:
-        print("--- Piece moving from (" + str(xs) + "," + str(ys) +
-              ") to (" + str(xt) + "," + str(yt) + ") ---")
+        print("--- "+ p_type +" moving from ("+ str(xs) +","+ str(ys) +
+              ") to ("+ str(xt) +","+ str(yt) +") ---")
     if (target_piece == ("N","N")):
         empty_target = True
     else:
@@ -73,17 +79,14 @@ def is_valid_move(board,xs,ys,xt,yt):
                     if get_piece(board,xs,ys+i) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs) + "," + str(ys+i))
-                           # print("Return False")
+                            print("Piece in the way at ("+ str(xs) + "," + str(ys+i)+")")
                         return False      
             else: # negative movement BROKEN
                 for i in range(-1, deltay, -1):
                     if get_piece(board,xs,ys+i) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs) + "," + str(ys+i))
+                            print("Piece in the way at ("+ str(xs) + "," + str(ys+i)+")")
                            # print("Return False")
                         return False
 
@@ -94,8 +97,7 @@ def is_valid_move(board,xs,ys,xt,yt):
                     if get_piece(board,xs+i,ys) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs+i) + "," + str(ys))
+                            print("Piece in the way at ("+ str(xs+i) + "," + str(ys)+")")
                            # print("Return False")
                         return False
             else: # negative movement BROKEN
@@ -103,24 +105,26 @@ def is_valid_move(board,xs,ys,xt,yt):
                     if get_piece(board,xs+i,ys) != ("N","N"):
                         #piece in the way
                         if VERBOSE:
-                            print("Piece in the way")
-                            print(str(xs+i) + "," + str(ys))
+                            print("Piece in the way at ("+ str(xs+i) + "," + str(ys)+")")
                            # print("Return False")
                         return False
         if VERBOSE:
             print("No piece in the way!")
         if can_capture and not empty_target:
             if VERBOSE:
-                print("There is a piece at the target that I can Capture")
-                print("Return True")
+                pass
+            #   print("There is a piece at the target that I can Capture")
+            #   print("Return True")
             return True
         elif not can_capture and not empty_target:
             if VERBOSE:
-                print("Return False")
+                pass
+            #    print("Return False")
             return False
         elif empty_target:
             if VERBOSE:
-                print("Return True")
+                pass
+            #    print("Return True")
             return True
 #END ROOK
 #BEGIN BISHOP 
@@ -181,7 +185,7 @@ def is_valid_move(board,xs,ys,xt,yt):
         #input: start loc and target loc
 
 def in_move_set(ptype,pcolor,xs,ys,xt,yt):
-    VERBOSE = True
+    VERBOSE = False
     #Check if the input values are valid
     if (xs > 8 or ys > 8 or xt > 8 or yt > 8) or (xs < 1 or ys < 1 or xt < 1 or yt < 1):
         print(red + "These values are not on the board, try a different move." + reset)
