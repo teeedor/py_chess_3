@@ -28,12 +28,13 @@ def is_valid_move(board,xs,ys,xt,yt):
     #checks if there is a piece in target location
     target_piece = get_piece(board,xt,yt)
     source_piece = get_piece(board,xs,ys)
-    p_type = "Rook" if (source_piece[1] == "R" or source_piece[1] == "r") else "Piece"
-    p_type = "Bishop" if (source_piece[1] == "B" or source_piece[1] == "b") else "Piece"
-    p_type = "Queen" if (source_piece[1] == "Q" or source_piece[1] == "q") else "Piece"
-    p_type = "Pawn" if (source_piece[1] == "P" or source_piece[1] == "p") else "Piece"
-    p_type = "King" if (source_piece[1] == "K" or source_piece[1] == "k") else "Piece"
-    p_type = "Knight" if (source_piece[1] == "H" or source_piece[1] == "h") else "Piece"
+    p_type = "Piece"
+    if source_piece[1] in ("R","r"): p_type = "Rook"
+    if source_piece[1] in ("B","b"): p_type = "Bishop"
+    if source_piece[1] in ("Q","q"): p_type = "Queen"
+    if source_piece[1] in ("P","p"): p_type = "Pawn"
+    if source_piece[1] in ("K","k"): p_type = "King"
+    if source_piece[1] in ("H","h"): p_type = "Knight"
     if VERBOSE:
         print("--- "+ p_type +" moving from ("+ str(xs) +","+ str(ys) +
               ") to ("+ str(xt) +","+ str(yt) +") ---")
@@ -182,15 +183,94 @@ def is_valid_move(board,xs,ys,xt,yt):
                 pass
             #    print("Return True")
             return True
-
-
 #END BISHOP         
-        #return True
-        #checks if can capture based on color 
-        #checks if something is in the way of movement for pieces
-        #only checks if the piece can make that move, regardless of board
-        #input: start loc and target loc
+#BEGIN QUEEN
+    if source_piece[1] == "Q" or source_piece[1] == "q":
+        #check for all four possible cases of Bishop Movement
+        deltax = xt - xs
+        deltay = yt - ys
+        if deltax == 0 or deltay == 0: # Rook Movement
+            if deltax == 0: # Vertical Lines
+                if deltay > 0: # positive movement
+                    #regular movement
+                    for i in range(1, deltay):
+                        if get_piece(board,xs,ys+i) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way at ("+ str(xs) + "," + str(ys+i)+")")
+                            return False      
+                else: # negative movement
+                    for i in range(-1, deltay, -1):
+                        if get_piece(board,xs,ys+i) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way at ("+ str(xs) + "," + str(ys+i)+")")
+                            return False
 
+            if deltay == 0: # Horizontal Lines
+                if deltax > 0: # positive movement
+                    #regular movement
+                    for i in range(1, deltax):
+                        if get_piece(board,xs+i,ys) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way at ("+ str(xs+i) + "," + str(ys)+")")
+                            return False
+                else: # negative movement
+                    for i in range(-1, deltax,-1):
+                        if get_piece(board,xs+i,ys) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way at ("+ str(xs+i) + "," + str(ys)+")")
+                            return False
+
+        else: # Bishop Movement
+            if deltax > 0:
+                if deltay > 0: # pos x pos y
+                   for i in range(1, deltay):
+                        if get_piece(board,xs+i,ys+i) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way ("+ str(xs+i) + "," + str(ys+i)+")")
+                            return False      
+                else: # pos x neg y
+                    for i in range(1, deltax):
+                        if get_piece(board,xs+i,ys-i) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way ("+ str(xs+i) + "," + str(ys-i)+")")
+                            return False      
+            else:
+                if deltay > 0: # neg x pos y
+                    for i in range(1, deltay):
+                        if get_piece(board,xs-i,ys+i) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way ("+ str(xs-i) + "," + str(ys+i)+")")
+                            return False      
+                else: # neg x neg y
+                    for i in range(1, abs(deltax)):
+                        if get_piece(board,xs-i,ys-i) != ("N","N"):
+                            #piece in the way
+                            if VERBOSE:
+                                print("Piece in the way ("+ str(xs-i) + "," + str(ys-i)+")")
+                            return False      
+        if VERBOSE:
+            print("Bishop")
+        if VERBOSE:
+            print("No piece in the way!")
+        if can_capture and not empty_target:
+            if VERBOSE:
+                pass
+            #   print("There is a piece at the target that I can Capture")
+            #   print("Return True")
+            return True
+        elif not can_capture and not empty_target:
+            if VERBOSE:
+                return False
+        elif empty_target:
+            return True
+#END QUEEN
 def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     VERBOSE = False
     #Check if the input values are valid
@@ -228,7 +308,6 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
                 print("Valid Move!") 
             return True
 
-
     #KNIGHT BASIC MOVESET COMPLETE
     if ptype == "H" or ptype == "h":
         if (abs(deltax) == 2 and abs(deltay) == 1) or (abs(deltax) == 1 and abs(deltay) == 2):
@@ -239,6 +318,17 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     #QUEEN
     if ptype == "Q" or ptype == "q":
         print("QUEEN")
+        #Rook Componant
+        if (deltax == 0 or deltay == 0):
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+        #Bishop Componant
+        if abs(deltax) == abs(deltay):
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+
         #combine Bishop and rook movesets
     #KING
     if ptype == "K" or ptype == "k":

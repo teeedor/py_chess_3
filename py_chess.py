@@ -158,6 +158,51 @@ def test_bishop():
     print( green + "Tests Bishop Passed: " + str(valid) + reset )
     print( red + "Tests Bishop Failed: " + str(wrong) + reset )
 
-#test_rook() # run the tests
-test_bishop() # run the tests
+def test_queen():
+    valid, wrong = 0,0
+    #Standard Queen Testing Board
+    b1 = [((4,4),("W","Q")),
+                           ((6,6),("B","h")),((6,2),("B","b")),((2,2),("B","k")),
+         ((4,2),("B","r")),((2,6),("B","r")),((2,4),("B","r")),((4,6),("B","r")),
+         ((6,4),("B","r"))]
+    # first 4 moves check bishop collision detection
+    moves1 = [(4,4,7,7,False),(4,4,7,1,False),(4,4,1,1,False),(4,4,1,7,False),
+              # Second Four Moves checking bishop capture
+              (4,4,6,6,True),(4,4,6,2,True),(4,4,2,2,True),(4,4,2,6,True),
+              # Third 4 Moves checking for moving off the board
+              (4,4,9,9,False),(4,4,-1,-1,False),(4,4,-1,9,False),(4,4,9,-1,False),
+              # Fourth 4 four moves check rook collision detection
+              (4,4,7,4,False),(4,4,4,1,False),(4,4,1,4,False),(4,4,4,7,False),
+              # Fifth 4 Moves checking rook capture
+              (4,4,6,4,True),(4,4,4,2,True),(4,4,2,4,True),(4,4,4,6,True),
+              ]
+    
+    draw(b1)
+    for move in moves1:
+        xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        actual = False
+
+        if in_move_set("Q","W",xs,ys,xt,yt):
+            if is_valid_move(b1,xs,ys,xt,yt):             
+                actual = True
+            else:
+                actual = False
+        else:
+            actual = False
+        # Keeping track of Passed and Failed Tests
+        if actual == expected:
+            #print(green+"good"+reset)
+            valid += 1
+        else:
+            #print(red+"bad"+reset)
+            wrong += 1
+
+        # check if move is both valid and in moveset
+        #print(in_set_ex, in_val_ex)
+    print( green + "Tests Queen Passed: " + str(valid) + reset )
+    print( red + "Tests Queen Failed: " + str(wrong) + reset )
+#test_rook() # run the tests - WORKING
+#test_bishop() # run the tests - WORKING
+test_queen() # run the tests - WORKING
+
 
