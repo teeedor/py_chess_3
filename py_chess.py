@@ -21,6 +21,9 @@ red = "\033[91m"
 green = "\033[92m"
 reset = "\033[0m"
 VERBOSE = True
+#TESTING VALUES
+valid, wrong = 0,0
+
 def make_board(mode):
     board = []
     if mode == 1:
@@ -68,7 +71,7 @@ def draw_line(y_val, board):
     print(str(y_val) + output)
 
 def draw(board):
-    os.system('cls') #Clear screen
+    #os.system('cls') #Clear screen
     #Draw each horizontal line of the board from top to bottom
     for y in range(8,0,-1):
         #Draw entire y_val line
@@ -85,7 +88,7 @@ def make_move(board,piece_index,xs,ys,xt,yt):
         source_piece = get_piece(board,xs,ys)
 #Make Testing Functions
 def test_rook():
-    valid, wrong = 0,0
+    global valid, wrong
     #Standard Rook Testing Board
     b1 = [((4,4),("W","R")),
                            ((6,4),("B","h")),((2,4),("B","b")),((4,6),("B","k")),
@@ -119,9 +122,10 @@ def test_rook():
         #print(in_set_ex, in_val_ex)
     print( green + "Tests Rook Passed: " + str(valid) + reset )
     print( red + "Tests Rook Failed: " + str(wrong) + reset )
+    print("---------------------------------------")
 
 def test_bishop():
-    valid, wrong = 0,0
+    global valid, wrong
     #Standard Rook Testing Board
     b1 = [((4,4),("W","B")),
                            ((6,6),("B","h")),((6,2),("B","b")),((2,2),("B","k")),
@@ -157,9 +161,10 @@ def test_bishop():
         #print(in_set_ex, in_val_ex)
     print( green + "Tests Bishop Passed: " + str(valid) + reset )
     print( red + "Tests Bishop Failed: " + str(wrong) + reset )
+    print("---------------------------------------")
 
 def test_queen():
-    valid, wrong = 0,0
+    global valid, wrong
     #Standard Queen Testing Board
     b1 = [((4,4),("W","Q")),
                            ((6,6),("B","h")),((6,2),("B","b")),((2,2),("B","k")),
@@ -201,8 +206,61 @@ def test_queen():
         #print(in_set_ex, in_val_ex)
     print( green + "Tests Queen Passed: " + str(valid) + reset )
     print( red + "Tests Queen Failed: " + str(wrong) + reset )
-#test_rook() # run the tests - WORKING
-#test_bishop() # run the tests - WORKING
+    print("---------------------------------------")
+
+def test_king():
+    global valid, wrong
+    #Standard King Testing Board
+    b1 = [((2,2),("W","K")),
+          ((3,2),("B","h")),((1,2),("B","b")),((2,3),("B","k")),((2,1),("B","r")),
+          ((1,3),("B","r")),((3,1),("B","r")),((1,1),("B","r")),((3,3),("B","r")),
+          ((6,6),("W","K")),
+          ((5,6),("W","H")),((5,5),("W","B")),((6,5),("W","K")),((7,5),("W","R")),
+          ((7,6),("W","R")),((7,7),("W","R")),((6,7),("W","R")),((5,7),("W","R"))]
+    # first 8 moves check correct capture
+    moves1 = [(2,2,3,2,True),(2,2,1,2,True),(2,2,2,3,True),(2,2,2,1,True),
+              (2,2,1,3,True),(2,2,3,1,True),(2,2,1,1,True),(2,2,3,3,True),
+              # second 8 moves check for trying to capture wrong color piece 
+              (6,6,7,6,False),(6,6,5,6,False),(6,6,6,7,False),(6,6,6,5,False),
+              (6,6,5,7,False),(6,6,7,5,False),(6,6,5,5,False),(6,6,7,7,False),
+              # Third 4 moves check for off board input
+              (6,6,9,9,False),(6,6,0,0,False),(6,6,9,2,False),(6,6,2,9,False)]
+
+    # Second 8 moves check collision detection
+    
+    draw(b1)
+    for move in moves1:
+        xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        actual = False
+
+        if is_valid_move(b1,xs,ys,xt,yt):             
+            if in_move_set("K","W",xs,ys,xt,yt):
+                actual = True
+            else:
+                actual = False
+        else:
+            actual = False
+        # Keeping track of Passed and Failed Tests
+        if actual == expected:
+            valid += 1
+        else:
+            wrong += 1
+
+        # check if move is both valid and in moveset
+        #print(in_set_ex, in_val_ex)
+    print( green + "Tests King Passed: " + str(valid) + reset )
+    print( red + "Tests King Failed: " + str(wrong) + reset )
+    print("---------------------------------------")
+
+def test_knight():
+    pass
+
+def test_pawn():
+    pass
+
+test_rook() # run the tests - WORKING
+test_bishop() # run the tests - WORKING
 test_queen() # run the tests - WORKING
-
-
+test_king() # run the tests - WORKING
+test_knight() # NOT WRITTEN YET
+test_pawn() # NOT WRITTEN YET

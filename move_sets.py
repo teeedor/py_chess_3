@@ -1,9 +1,6 @@
 #this file will have all move set related functions
 
-#piece in the way?
-#is_valid_move?
-#function to get the color and type of a location
-
+#Codes for coloring Strings
 red = "\033[91m"
 green = "\033[92m"
 reset = "\033[0m"
@@ -21,8 +18,8 @@ def get_piece(board,x,y):
     return output
 
 def is_valid_move(board,xs,ys,xt,yt):
-    VERBOSE = True
     #checks if the move is valid based on board state
+    VERBOSE = True
     empty_target = False
     can_capture = False
     #checks if there is a piece in target location
@@ -50,7 +47,7 @@ def is_valid_move(board,xs,ys,xt,yt):
             can_capture = True
         else:
             if VERBOSE:
-                print("Cannot Capture :(")
+                print(red + "Cannot Capture :(" + reset)
             pass
 #BEGIN KNIGHT
     if source_piece[1] == "H" or source_piece[1] == "h":
@@ -59,7 +56,7 @@ def is_valid_move(board,xs,ys,xt,yt):
             print("Knight")
         if not empty_target and not can_capture:
             if VERBOSE:
-                print("Target piece is same color")
+                print("1 Target piece is same color")
                 print(str(xt) + "," + str(yt))
                 print("Return False")
             return False
@@ -271,6 +268,20 @@ def is_valid_move(board,xs,ys,xt,yt):
         elif empty_target:
             return True
 #END QUEEN
+#BEGIN KING
+    if source_piece[1] == "K" or source_piece[1] == "k":
+        #if VERBOSE:
+            #print("King")
+        if not empty_target and not can_capture:
+            if VERBOSE:
+                #print("(king) Target piece is same color")
+                #print("(king) " + str(xt) + "," + str(yt))
+                #print("Return False")
+                pass
+            return False
+        return True
+#END KING
+
 def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     VERBOSE = False
     #Check if the input values are valid
@@ -281,13 +292,15 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     if VERBOSE:
         print(ptype + " is trying to move from (" + str(xs) + ", " + str(ys) +
             ") to (" + str(xt) + ", " + str(yt) + ")")
-
+    
+    #Calculate dx and dy
     deltax = xt - xs
     deltay = yt - ys
 
     #PAWN
     if ptype == "P" or ptype == "p":
         #get pieces color
+        #piece_color = 
         #if white, pawn moves in positive y, black moves in negative y
         #if piece is on homerow, allow for big first move
         #also need to factor in Capture movement
@@ -295,7 +308,7 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
 
     #ROOK BASIC MOVESET COMPLETE
     if ptype == "R" or ptype == "r":
-                #if one of the deltas is 0, then it has to be in a line
+        #if one of the deltas is 0, then it has to be in a line
         if (deltax == 0 or deltay == 0):
             if VERBOSE:
                 print("Valid Move!") 
@@ -317,7 +330,6 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
 
     #QUEEN
     if ptype == "Q" or ptype == "q":
-        print("QUEEN")
         #Rook Componant
         if (deltax == 0 or deltay == 0):
             if VERBOSE:
@@ -329,9 +341,45 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
                 print("Valid Move!") 
             return True
 
-        #combine Bishop and rook movesets
     #KING
     if ptype == "K" or ptype == "k":
-        print("KING")  
+        #X Movement
+        if abs(deltax) == 1 and abs(deltay) == 0:
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+        #Y Movement
+        if abs(deltax) == 0 and abs(deltay) == 1:
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+        #Diagonal
+        if abs(deltax) == 1 and abs(deltay) == 1:
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+
+    #PAWN
+    if ptype == "P" or ptype == "p":
+        # White Piece = +deltay
+        if pcolor == "W" and deltay == 1 and deltax == 0:
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+        # First Move Jump
+        if pcolor == "W" and ys == 2 and deltay == 2 and deltax == 0:
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+        # Black Piece = -deltay
+        if pcolor == "B" and deltay == -1 and deltax == 0:
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
+        # First Move Jump
+        if pcolor == "B" and ys == 7 and deltay == -2 and deltax == 0:
+            if VERBOSE:
+                print("Valid Move!") 
+            return True
 
     print("Not Valid Move :'(")
