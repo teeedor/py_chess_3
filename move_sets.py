@@ -22,7 +22,7 @@ def is_valid_move(board,xs,ys,xt,yt):
     deltay = yt - ys
 
     #checks if the move is valid based on board state
-    VERBOSE = False
+    VERBOSE = True
     empty_target = False
     can_capture = False
     #checks if there is a piece in target location
@@ -81,7 +81,7 @@ def is_valid_move(board,xs,ys,xt,yt):
     if source_piece[1] == "R" or source_piece[1] == "r":
         #Rook, look for something in the way 
         if VERBOSE:
-            # print("Rook is trying to move")
+            print("Rook is trying to move")
             pass
         if deltax == 0: # Vertical Lines
             if deltay > 0: # positive movement
@@ -123,19 +123,19 @@ def is_valid_move(board,xs,ys,xt,yt):
             print("No piece in the way!")
         if can_capture and not empty_target:
             if VERBOSE:
-                pass
-            #   print("There is a piece at the target that I can Capture")
-            #   print("Return True")
+               # pass
+                print("There is a piece at the target that I can Capture")
+                print("Return True")
             return True
         elif not can_capture and not empty_target:
             if VERBOSE:
-                pass
-            #    print("Return False")
+            #    pass
+                print("Return False")
             return False
         elif empty_target:
             if VERBOSE:
-                pass
-            #    print("Return True")
+               # pass
+                print("Return True")
             return True
 #END ROOK
 #BEGIN BISHOP 
@@ -172,24 +172,22 @@ def is_valid_move(board,xs,ys,xt,yt):
                             print("Piece in the way ("+ str(xs-i) + "," + str(ys-i)+")")
                         return False      
         if VERBOSE:
-            print("Bishop")
-        if VERBOSE:
             print("No piece in the way!")
         if can_capture and not empty_target:
             if VERBOSE:
-                pass
-            #   print("There is a piece at the target that I can Capture")
-            #   print("Return True")
+               # pass
+               print("There is a piece at the target that I can Capture")
+               print("Return True")
             return True
         elif not can_capture and not empty_target:
             if VERBOSE:
-                pass
-            #    print("Return False")
+                #pass
+                print("Return False")
             return False
         elif empty_target:
             if VERBOSE:
-                pass
-            #    print("Return True")
+              #  pass
+                print("Return True")
             return True
 #END BISHOP         
 #BEGIN QUEEN
@@ -262,14 +260,12 @@ def is_valid_move(board,xs,ys,xt,yt):
                                 print("Piece in the way ("+ str(xs-i) + "," + str(ys-i)+")")
                             return False      
         if VERBOSE:
-            print("Bishop")
-        if VERBOSE:
             print("No piece in the way!")
         if can_capture and not empty_target:
             if VERBOSE:
-                pass
-            #   print("There is a piece at the target that I can Capture")
-            #   print("Return True")
+                #pass
+                print("There is a piece at the target that I can Capture")
+                print("Return True")
             return True
         elif not can_capture and not empty_target:
             if VERBOSE:
@@ -279,13 +275,13 @@ def is_valid_move(board,xs,ys,xt,yt):
 #END QUEEN
 #BEGIN KING
     if source_piece[1] == "K" or source_piece[1] == "k":
-        #if VERBOSE:
-            #print("King")
+        if VERBOSE:
+            print("King")
         if not empty_target and not can_capture:
             if VERBOSE:
-                #print("(king) Target piece is same color")
-                #print("(king) " + str(xt) + "," + str(yt))
-                #print("Return False")
+                print("(king) Target piece is same color")
+                print("(king) " + str(xt) + "," + str(yt))
+                print("Return False")
                 pass
             return False
         return True

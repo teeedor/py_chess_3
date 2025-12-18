@@ -70,16 +70,19 @@ def draw_line(y_val, board):
                     string = "  "
     #after the entire loop, Draw the String
         output += string
-    print(str(y_val) + output)
+    print("\t  "+str(y_val) + output)
 
 def draw(board):
     #os.system('cls') #Clear screen
     #Draw each horizontal line of the board from top to bottom
+
+    print("\n") 
     for y in range(8,0,-1):
         #Draw entire y_val line
         draw_line(y, board)
     #Coordinate Marks
-    print("  1 2 3 4 5 6 7 8") 
+    print("\t    1 2 3 4 5 6 7 8") 
+    print("\n") 
 
 def make_move(board,piece_index,xs,ys,xt,yt):
     #if move is in moveset
