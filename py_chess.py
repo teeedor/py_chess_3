@@ -19,6 +19,8 @@ from move_sets import get_piece, in_move_set, is_valid_move
 
 red = "\033[91m"
 green = "\033[92m"
+yellow = "\033[93m"
+blue = "\033[94m"
 reset = "\033[0m"
 VERBOSE = True
 #TESTING VALUES
@@ -101,6 +103,8 @@ def test_rook():
               (4,2,9,2,False),(4,2,-2,2,False),(4,2,4,-2,False),(3,5,3,9,False)]
     
     draw(b1)
+    loc_valid = 0
+    loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
         actual = False
@@ -114,14 +118,15 @@ def test_rook():
             actual = False
         # Keeping track of Passed and Failed Tests
         if actual == expected:
-            valid += 1
+            loc_valid += 1
         else:
-            wrong += 1
+            loc_wrong += 1
 
         # check if move is both valid and in moveset
-        #print(in_set_ex, in_val_ex)
-    print( green + "Tests Rook Passed: " + str(valid) + reset )
-    print( red + "Tests Rook Failed: " + str(wrong) + reset )
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    valid = valid + loc_valid
+    wrong = wrong + loc_wrong
+    print(yellow+"Rook Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
     print("---------------------------------------")
 
 def test_bishop():
@@ -138,6 +143,8 @@ def test_bishop():
               (4,4,9,9,False),(4,4,-1,-1,False),(4,4,-1,9,False),(4,4,9,-1,False)]
     
     draw(b1)
+    loc_valid = 0
+    loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
         actual = False
@@ -151,16 +158,15 @@ def test_bishop():
             actual = False
         # Keeping track of Passed and Failed Tests
         if actual == expected:
-            #print(green+"good"+reset)
-            valid += 1
+            loc_valid += 1
         else:
-            #print(red+"bad"+reset)
-            wrong += 1
+            loc_wrong += 1
 
         # check if move is both valid and in moveset
-        #print(in_set_ex, in_val_ex)
-    print( green + "Tests Bishop Passed: " + str(valid) + reset )
-    print( red + "Tests Bishop Failed: " + str(wrong) + reset )
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    valid = valid + loc_valid
+    wrong = wrong + loc_wrong
+    print(yellow+"Bishop Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
     print("---------------------------------------")
 
 def test_queen():
@@ -183,6 +189,8 @@ def test_queen():
               ]
     
     draw(b1)
+    loc_valid = 0
+    loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
         actual = False
@@ -196,16 +204,15 @@ def test_queen():
             actual = False
         # Keeping track of Passed and Failed Tests
         if actual == expected:
-            #print(green+"good"+reset)
-            valid += 1
+            loc_valid += 1
         else:
-            #print(red+"bad"+reset)
-            wrong += 1
+            loc_wrong += 1
 
         # check if move is both valid and in moveset
-        #print(in_set_ex, in_val_ex)
-    print( green + "Tests Queen Passed: " + str(valid) + reset )
-    print( red + "Tests Queen Failed: " + str(wrong) + reset )
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    valid = valid + loc_valid
+    wrong = wrong + loc_wrong
+    print(yellow+"Queen Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
     print("---------------------------------------")
 
 def test_king():
@@ -229,6 +236,8 @@ def test_king():
     # Second 8 moves check collision detection
     
     draw(b1)
+    loc_valid = 0
+    loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
         actual = False
@@ -242,25 +251,71 @@ def test_king():
             actual = False
         # Keeping track of Passed and Failed Tests
         if actual == expected:
-            valid += 1
+            loc_valid += 1
         else:
-            wrong += 1
+            loc_wrong += 1
 
         # check if move is both valid and in moveset
-        #print(in_set_ex, in_val_ex)
-    print( green + "Tests King Passed: " + str(valid) + reset )
-    print( red + "Tests King Failed: " + str(wrong) + reset )
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    valid = valid + loc_valid
+    wrong = wrong + loc_wrong
+    print(yellow+"King Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
     print("---------------------------------------")
 
 def test_knight():
     pass
 
 def test_pawn():
-    pass
+    global valid, wrong
+    #Standard Pawn Testing Board
+    b1 = [((2,2),("W","P")),((6,2),("W","P")),((3,3),("B","p")),((5,3),("B","p")),
+          ((5,6),("W","P")),((6,6),("W","P")),((4,7),("B","p")),((7,7),("B","p"))]
+    #  
+    moves1 = [(2,2,2,1,False),(2,2,1,2,False),(2,2,3,3,True),(2,2,1,3,True),(2,2,2,4,True),(2,2,2,4,True),
+              # second 8 moves check for trying to capture wrong color piece 
+              (6,6,7,6,False),(6,6,5,6,False),(6,6,6,7,False),(6,6,6,5,False),
+              (6,6,5,7,False),(6,6,7,5,False),(6,6,5,5,False),(6,6,7,7,False),
+              # Third 4 moves check for off board input
+              (6,6,9,9,False),(6,6,0,0,False),(6,6,9,2,False),(6,6,2,9,False)]
 
+    # Second 8 moves check collision detection
+    
+    draw(b1)
+    loc_valid = 0
+    loc_wrong = 0
+    for move in moves1:
+        xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        actual = False
+
+        if is_valid_move(b1,xs,ys,xt,yt):             
+            if in_move_set("K","W",xs,ys,xt,yt):
+                actual = True
+            else:
+                actual = False
+        else:
+            actual = False
+        # Keeping track of Passed and Failed Tests
+        if actual == expected:
+            loc_valid += 1
+        else:
+            loc_wrong += 1
+
+        # check if move is both valid and in moveset
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    valid = valid + loc_valid
+    wrong = wrong + loc_wrong
+    print(yellow+"Pawn Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+
+# Running all test functions
 test_rook() # run the tests - WORKING
 test_bishop() # run the tests - WORKING
 test_queen() # run the tests - WORKING
 test_king() # run the tests - WORKING
 test_knight() # NOT WRITTEN YET
 test_pawn() # NOT WRITTEN YET
+
+# Grand Total PASS / FAIL
+print(blue + "---------------------------------------" + reset)
+print( green + "GRAND TOTAL PASSED: " + str(valid) + reset )
+print( red + "GRAND TOTAL FAILED: " + str(wrong) + reset )
+print(blue + "---------------------------------------" + reset)
