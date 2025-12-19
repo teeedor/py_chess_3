@@ -29,6 +29,7 @@ def is_valid_move(board,xs,ys,xt,yt):
     target_piece = get_piece(board,xt,yt)
     source_piece = get_piece(board,xs,ys)
     p_type = "Piece"
+    pcolor = source_piece[0]
     if source_piece[1] in ("R","r"): p_type = "Rook"
     if source_piece[1] in ("B","b"): p_type = "Bishop"
     if source_piece[1] in ("Q","q"): p_type = "Queen"
@@ -56,13 +57,66 @@ def is_valid_move(board,xs,ys,xt,yt):
     if source_piece[1] == "P" or source_piece[1] == "p":
         if VERBOSE:
             print("Pawn")
-        if not empty_target and not can_capture:
+                
+        # White Piece = +deltay
+        if pcolor == "W" and deltay == 1 and deltax == 0:
+            if target_piece != ("N","N"):
+                if VERBOSE:
+                    print("Piece in the Way!") 
+                return False
+            else:
+                if VERBOSE:
+                    print("No Piece in the Way!") 
+                return True
+        # White Piece first Move Jump
+        if pcolor == "W" and ys == 2 and deltay == 2 and deltax == 0:
+            #looksright#print(str(target_piece)+" , "+str(get_piece(board,xt,yt-1)))
+            if target_piece != ("N","N") or get_piece(board,xt,yt-1) != ("N","N"):
+                if VERBOSE:
+                    print("Piece in the Way!") 
+                return False
+            else:
+                if VERBOSE:
+                    print("No Piece in the Way!") 
+                return True
+
+        # Black Piece = -deltay
+        if pcolor == "B" and deltay == -1 and deltax == 0:
+            if target_piece != ("N","N"):
+                if VERBOSE:
+                    print("Piece in the Way!") 
+                return False
+            else:
+                if VERBOSE:
+                    print("No Piece in the Way!") 
+                return True
+        # Black Piece first Move Jump
+        if pcolor == "B" and ys == 7 and deltay == -2 and deltax == 0:
+            if target_piece != ("N","N") or get_piece(board,xt,yt+1) != ("N","N"):
+                if VERBOSE:
+                    print("Piece in the Way!") 
+                return False
+            else:
+                if VERBOSE:
+                    print("No Piece in the Way!") 
+                return True
+        # Check for diagonal Move in Direction White Pawn
+        #print(str(pcolor)+" , "+str(deltay)+" , "+str(abs(deltax))+" , "+str(target_piece[0]))
+        if pcolor == "W" and deltay == 1 and abs(deltax) == 1 and target_piece[0] == "B":
             if VERBOSE:
-                print("Target piece is same color")
-                print(str(xt) + "," + str(yt))
-                print("Return False")
+                print(green + "Pawn Can Capture!" + reset) 
+            return True
+        elif pcolor == "B" and deltay == -1 and abs(deltax) == 1 and target_piece[0] == "W":
+            if VERBOSE:
+                print(green + "Pawn Can Capture!" + reset) 
+            return True
+        else:
+            if VERBOSE:
+                print(red + "Pawn Can't Capture!" + reset) 
             return False
-        return True
+
+        # Check for diagonal Move in Direction Black Pawn
+        #print(str(pcolor)+" , "+str(deltay)+" , "+str(abs(deltax))+" , "+str(target_piece[0]))
 #END PAWN
 #BEGIN KNIGHT
     if source_piece[1] == "H" or source_piece[1] == "h":

@@ -129,7 +129,7 @@ def test_rook():
     print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
-    print(yellow+"Rook Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Rook Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
     print("---------------------------------------")
 
 def test_bishop():
@@ -166,7 +166,7 @@ def test_bishop():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
     print(yellow+"Bishop Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
@@ -212,7 +212,7 @@ def test_queen():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
     print(yellow+"Queen Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
@@ -259,7 +259,7 @@ def test_king():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
     print(yellow+"King Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
@@ -272,26 +272,32 @@ def test_pawn():
     global valid, wrong
     #Standard Pawn Testing Board
     b1 = [((2,2),("W","P")),((6,2),("W","P")),((3,3),("B","p")),((5,3),("B","p")),
-          ((5,6),("W","P")),((6,6),("W","P")),((4,7),("B","p")),((7,7),("B","p"))]
-    #  
-    moves1 = [(2,2,2,1,False),(2,2,1,2,False),(2,2,3,3,True),(2,2,1,3,True),(2,2,2,4,True),(2,2,2,4,True),
-              # second 8 moves check for trying to capture wrong color piece 
-              (6,6,7,6,False),(6,6,5,6,False),(6,6,6,7,False),(6,6,6,5,False),
-              (6,6,5,7,False),(6,6,7,5,False),(6,6,5,5,False),(6,6,7,7,False),
-              # Third 4 moves check for off board input
-              (6,6,9,9,False),(6,6,0,0,False),(6,6,9,2,False),(6,6,2,9,False)]
+          ((5,6),("W","P")),((6,6),("W","P")),((4,7),("B","p")),((7,7),("B","p")),
+          ((8,2),("W","P")),((8,3),("B","p")),((1,7),("W","P")),((1,6),("B","p")),]
 
-    # Second 8 moves check collision detection
+              # Wpawn 1 moves 
+    moves1 = [(2,2,2,1,False),(2,2,1,2,False),(2,2,3,3,True),(2,2,1,3,False),(2,2,2,3,True),(2,2,2,4,True),
+              # Wpawn 2 moves
+              (6,2,6,1,False),(6,2,7,2,False),(6,2,7,3,False),(6,2,6,3,True),(6,2,6,4,True),(6,2,5,3,True),
+              # Bpawn 1 moves
+              (4,7,4,8,False),(4,7,3,7,False),(4,7,3,6,False),(4,7,4,6,True),(4,7,4,5,True),(4,7,5,6,True),
+              # Bpawn 2 moves
+              (7,7,7,8,False),(7,7,8,7,False),(7,7,8,6,False),(7,7,7,6,True),(7,7,7,5,True),(7,7,6,6,True),
+              # Wpawn 3 moves
+              (8,2,8,3,False),(8,2,8,4,False),
+              # Bpawn 3 moves
+              (1,7,1,6,False),(1,7,1,5,False)]
     
     draw(b1)
     loc_valid = 0
     loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        pcolor = get_piece(b1, xs, ys)[0]
         actual = False
 
         if is_valid_move(b1,xs,ys,xt,yt):             
-            if in_move_set("K","W",xs,ys,xt,yt):
+            if in_move_set("P",pcolor,xs,ys,xt,yt):
                 actual = True
             else:
                 actual = False
@@ -304,7 +310,7 @@ def test_pawn():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
     print(yellow+"Pawn Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
