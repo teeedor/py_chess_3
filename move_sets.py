@@ -342,7 +342,7 @@ def is_valid_move(board,xs,ys,xt,yt):
 #END KING
 
 def in_move_set(ptype,pcolor,xs,ys,xt,yt):
-    VERBOSE = False
+    VERBOSE = True 
     #Check if the input values are valid
     if (xs > 8 or ys > 8 or xt > 8 or yt > 8) or (xs < 1 or ys < 1 or xt < 1 or yt < 1):
         if VERBOSE:
@@ -411,7 +411,7 @@ def in_move_set(ptype,pcolor,xs,ys,xt,yt):
         if (abs(deltax) == 2 and abs(deltay) == 1) or (abs(deltax) == 1 and abs(deltay) == 2):
             if VERBOSE:
                 print("Valid Move!") 
-                return True
+            return True
 
     #QUEEN BASIC MOVESET COMPLETE
     if ptype == "Q" or ptype == "q":
