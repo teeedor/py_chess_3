@@ -94,7 +94,8 @@ def make_move(board,piece_index,xs,ys,xt,yt):
 
 #--- TESTS ---
 def test_pawn():
-    global valid, wrong
+    global valid, wrong, VERBOSE
+    ptype = "Pawn"
     #Standard Pawn Testing Board
     b1 = [((2,2),("W","P")),((6,2),("W","P")),((3,3),("B","p")),((5,3),("B","p")),
           ((5,6),("W","P")),((6,6),("W","P")),((4,7),("B","p")),((7,7),("B","p")),
@@ -121,13 +122,19 @@ def test_pawn():
         pcolor = get_piece(b1, xs, ys)[0]
         actual = False
 
-        if is_valid_move(b1,xs,ys,xt,yt):             
-            if in_move_set("P",pcolor,xs,ys,xt,yt):
-                actual = True
+        if in_move_set(ptype,pcolor,xs,ys,xt,yt):             
+            if is_valid_move(b1,xs,ys,xt,yt):
+                if VERBOSE:
+                    actual = True
+                    print(green+"GOOD MOVE"+reset)
             else:
-                actual = False
+                if VERBOSE:
+                    actual = False
+                    print(red+"BAD MOVE"+reset)
         else:
-            actual = False
+            if VERBOSE:
+                actual = False
+                print(red+"BAD MOVE"+reset)
         # Keeping track of Passed and Failed Tests
         if actual == expected:
             loc_valid += 1
@@ -135,13 +142,15 @@ def test_pawn():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Pawn Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
+    print("---------------------------------------")
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
-    print(yellow+"Pawn Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
 
 def test_knight():
-    global valid, wrong
+    global valid, wrong, VERBOSE
+    ptype = "Knight"
     #standard knight testing board
     b1 = [((3,3),("W","H")),
           ((2,1),("W","H")),((4,1),("W","H")),((1,4),("W","H")),((5,4),("W","H")),
@@ -163,15 +172,22 @@ def test_knight():
     loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        pcolor = get_piece(b1, xs, ys)[0]
         actual = False
 
-        if is_valid_move(b1,xs,ys,xt,yt):             
-            if in_move_set("H","W",xs,ys,xt,yt):
-                actual = True
+        if in_move_set(ptype,pcolor,xs,ys,xt,yt):             
+            if is_valid_move(b1,xs,ys,xt,yt):
+                if VERBOSE:
+                    actual = True
+                    print(green+"GOOD MOVE"+reset)
             else:
-                actual = False
+                if VERBOSE:
+                    actual = False
+                    print(red+"BAD MOVE"+reset)
         else:
-            actual = False
+            if VERBOSE:
+                actual = False
+                print(red+"BAD MOVE"+reset)
         # keeping track of passed and failed tests
         if actual == expected:
             loc_valid += 1
@@ -180,14 +196,15 @@ def test_knight():
             print(red+"!!!TEST NOT RETURNING WHAT IS EXPECTED!!!"+reset)
 
         # check if move is both valid and in moveset
-    print(yellow+"previous tests "+green+"\tpassed: "+str(valid)+yellow+" / "+red+"failed: "+str(wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tpassed: "+str(valid)+yellow+" / "+red+"failed: "+str(wrong)+reset)
+    print(yellow+"Knight Tests "+green+"\tpassed: "+str(loc_valid)+yellow+" / "+red+"failed: "+str(loc_wrong)+reset)
+    print("---------------------------------------")
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
-    print(yellow+"Knight tests "+green+"\tpassed: "+str(loc_valid)+yellow+" / "+red+"failed: "+str(loc_wrong)+reset)
-    print("---------------------------------------")
 
 def test_rook():
-    global valid, wrong
+    global valid, wrong, VERBOSE
+    ptype = "Rook"
     #standard rook testing board
     b1 = [((4,4),("w","r")),
                            ((6,4),("b","h")),((2,4),("b","b")),((4,6),("b","k")),
@@ -204,15 +221,22 @@ def test_rook():
     loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        pcolor = get_piece(b1, xs, ys)[0]
         actual = False
 
-        if is_valid_move(b1,xs,ys,xt,yt):             
-            if in_move_set("r","w",xs,ys,xt,yt):
-                actual = True
+        if in_move_set(ptype,pcolor,xs,ys,xt,yt):             
+            if is_valid_move(b1,xs,ys,xt,yt):
+                if VERBOSE:
+                    actual = True
+                    print(green+"GOOD MOVE"+reset)
             else:
-                actual = False
+                if VERBOSE:
+                    actual = False
+                    print(red+"BAD MOVE"+reset)
         else:
-            actual = False
+            if VERBOSE:
+                actual = False
+                print(red+"BAD MOVE"+reset)
         # keeping track of passed and failed tests
         if actual == expected:
             loc_valid += 1
@@ -220,14 +244,15 @@ def test_rook():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"previous tests "+green+"\tpassed: "+str(valid)+yellow+" / "+red+"failed: "+str(wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tpassed: "+str(valid)+yellow+" / "+red+"failed: "+str(wrong)+reset)
+    print(yellow+"Rook Tests "+green+"\tpassed: "+str(loc_valid)+yellow+" / "+red+"failed: "+str(loc_wrong)+reset)
+    print("---------------------------------------")
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
-    print(yellow+"rook tests "+green+"\tpassed: "+str(loc_valid)+yellow+" / "+red+"failed: "+str(loc_wrong)+reset)
-    print("---------------------------------------")
 
 def test_bishop():
-    global valid, wrong
+    global valid, wrong, VERBOSE
+    ptype = "Bishop"
     #Standard Rook Testing Board
     b1 = [((4,4),("W","B")),
                            ((6,6),("B","h")),((6,2),("B","b")),((2,2),("B","k")),
@@ -246,13 +271,19 @@ def test_bishop():
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
         actual = False
 
-        if in_move_set("B","W",xs,ys,xt,yt):
+        if in_move_set(ptype,"W",xs,ys,xt,yt):
             if is_valid_move(b1,xs,ys,xt,yt):             
-                actual = True
+                if VERBOSE:
+                    actual = True
+                    print(green+"GOOD MOVE"+reset)
             else:
-                actual = False
+                if VERBOSE:
+                    actual = False
+                    print(red+"BAD MOVE"+reset)
         else:
-            actual = False
+            if VERBOSE:
+                actual = False
+                print(red+"BAD MOVE"+reset)
         # Keeping track of Passed and Failed Tests
         if actual == expected:
             loc_valid += 1
@@ -260,14 +291,15 @@ def test_bishop():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Bishop Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
+    print("---------------------------------------")
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
-    print(yellow+"Bishop Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
-    print("---------------------------------------")
 
 def test_queen():
-    global valid, wrong
+    global valid, wrong, VERBOSE
+    ptype = "Queen"
     #Standard Queen Testing Board
     b1 = [((4,4),("W","Q")),
                            ((6,6),("B","h")),((6,2),("B","b")),((2,2),("B","k")),
@@ -292,13 +324,19 @@ def test_queen():
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
         actual = False
 
-        if in_move_set("Q","W",xs,ys,xt,yt):
+        if in_move_set(ptype,"W",xs,ys,xt,yt):
             if is_valid_move(b1,xs,ys,xt,yt):             
-                actual = True
+                if VERBOSE:
+                    actual = True
+                    print(green+"GOOD MOVE"+reset)
             else:
-                actual = False
+                if VERBOSE:
+                    actual = False
+                    print(red+"BAD MOVE"+reset)
         else:
-            actual = False
+            if VERBOSE:
+                actual = False
+                print(red+"BAD MOVE"+reset)
         # Keeping track of Passed and Failed Tests
         if actual == expected:
             loc_valid += 1
@@ -306,14 +344,15 @@ def test_queen():
             loc_wrong += 1
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"Queen Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
+    print("---------------------------------------")
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
-    print(yellow+"Queen Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
-    print("---------------------------------------")
 
 def test_king():
-    global valid, wrong
+    global valid, wrong, VERBOSE
+    ptype = "King"
     #Standard King Testing Board
     b1 = [((2,2),("W","K")),
           ((3,2),("B","h")),((1,2),("B","b")),((2,3),("B","k")),((2,1),("B","r")),
@@ -330,43 +369,49 @@ def test_king():
               # Third 4 moves check for off board input
               (6,6,9,9,False),(6,6,0,0,False),(6,6,9,2,False),(6,6,2,9,False)]
 
-    # Second 8 moves check collision detection
-    
     draw(b1)
     loc_valid = 0
     loc_wrong = 0
     for move in moves1:
         xs,ys,xt,yt,expected = move[0], move[1], move[2], move[3], move[4]
+        pcolor = get_piece(b1, xs, ys)[0]
         actual = False
 
-        if is_valid_move(b1,xs,ys,xt,yt):             
-            if in_move_set("K","W",xs,ys,xt,yt):
-                actual = True
+        if in_move_set(ptype,pcolor,xs,ys,xt,yt):             
+            if is_valid_move(b1,xs,ys,xt,yt):
+                if VERBOSE:
+                    actual = True
+                    print(green+"GOOD MOVE"+reset)
             else:
-                actual = False
+                if VERBOSE:
+                    actual = False
+                    print(red+"BAD MOVE"+reset)
         else:
-            actual = False
+            if VERBOSE:
+                actual = False
+                print(red+"BAD MOVE"+reset)
         # Keeping track of Passed and Failed Tests
         if actual == expected:
             loc_valid += 1
         else:
             loc_wrong += 1
+            print(red+"!!!---NOT EXPECTED TEST RESULT---!!!"+reset)
 
         # check if move is both valid and in moveset
-    print(yellow+"Previous Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
+    print(yellow+"Previous Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
+    print(yellow+"King Tests "+green+"\tPassed: "+str(loc_valid)+yellow+" / "+red+"Failed: "+str(loc_wrong)+reset)
     valid = valid + loc_valid
     wrong = wrong + loc_wrong
-    print(yellow+"King Tests "+green+"\tPassed: "+str(valid)+yellow+" / "+red+"Failed: "+str(wrong)+reset)
-    print("---------------------------------------")
 
 def run_tests():
+    global valid, wrong
     # Running all test functions
-    #test_pawn() # Written - WORKING
-    test_knight() # Written
-    #test_rook() # Written - WORKING
-    #test_bishop() # Written - WORKING
-    #test_queen() # Written - WORKING
-    #test_king() # Written - WORKING
+    test_pawn() # Written - WORKING
+    test_knight() # Written - WORKING
+    test_rook() # Written - WORKING
+    test_bishop() # Written - WORKING
+    test_queen() # Written - WORKING
+    test_king() # Written - WORKING
 
     # Grand Total PASS / FAIL
     print(blue + "---------------------------------------" + reset)
