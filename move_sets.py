@@ -2,6 +2,12 @@
 # This file contains the logic to check if a chess move
 # is valid both within the standard piece move set 
 # and in relation to the current board state
+# NEED TO ADD CHECKING FOR MATE FUNCTION
+# NEED TO ADD EN PASSANT FUNCTIONALITY
+# NEED TO ADD CASTLING FUNCTIONALITY
+# NEED TO ADD PAWN UPGRADING
+
+from chess_funcs import get_piece
 
 #Codes for coloring Strings
 red = "\033[91m"
@@ -10,16 +16,6 @@ reset = "\033[0m"
 VERBOSE = False
 VERBOSE_BASIC = True
 # get the piece at a location on the given board
-def get_piece(board,x,y):
-    # Iterate through piece list and figure out if there is a piece there
-    for piece in board:
-        if piece[0][0] == x and piece[0][1] == y: 
-            # Return color and type
-            output = (piece[1][0],piece[1][1])
-            break
-        else:
-            output = ("N","N")
-    return output
 
 # Checks if there is a piece in the way of attempted movement
 def is_valid_move(board,xs,ys,xt,yt):
@@ -367,6 +363,7 @@ def is_valid_move(board,xs,ys,xt,yt):
                 print("No Piece at Target")
             return True
 
+# Checks if the attempted move is allowed by the piece
 def in_move_set(ptype,pcolor,xs,ys,xt,yt):
     # Calculate dx and dy
     deltax = xt - xs
