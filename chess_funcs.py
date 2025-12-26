@@ -22,6 +22,13 @@ import os # to clear the screen
 # move the make_move() function to other file
 #from move_sets import in_move_set, is_valid_move
 
+# Colors for formatting Strings
+red = "\033[91m"
+green = "\033[92m"
+yellow = "\033[93m"
+blue = "\033[94m"
+reset = "\033[0m"
+
 def get_piece(board,x,y):
     # Iterate through piece list and figure out if there is a piece there
     for piece in board:
@@ -32,6 +39,14 @@ def get_piece(board,x,y):
         else:
             output = ("N","N")
     return output
+
+def filled(board,x,y):
+    # just says whether a location has a piece or not
+    for piece in board:
+        if piece[0][0] == x and piece[0][1] == y: 
+            return True
+        else:
+            return False
 
 def make_board(mode):
     # all tests in self_test.py generate their own custom boards
@@ -99,3 +114,46 @@ def make_move(board,piece_index,xs,ys,xt,yt):
         #move is to empty space
         target_piece = get_piece(board,xt,yt)
         source_piece = get_piece(board,xs,ys)
+
+def read_in_move(board,white_turn):
+    while True:
+        if white_turn:
+            print("It is Whites turn, where would you like to move? ")
+        else:
+            print("It is Blacks turn, where would you like to move? ")
+
+        # Checks if player turn and piece being moved are same color
+        while True:
+            try:
+                xs = int(input("X of source: "))
+                ys = int(input("Y of source: "))
+            except ValueError:
+                print(red+"That is not a number"+reset)
+                break # Doesn't work as expected
+
+            source = get_piece(board,xs,ys)
+            if white_turn and source[0] == "W":
+                print(green+"Excellent Selection"+reset)
+                break 
+            elif not white_turn and source[0] == "B":
+                print(green+"Excellent Selection"+reset)
+                break
+            elif xs < 1 or xs > 8 or ys < 1 or ys > 8:
+                print(red+"Choice is not on the board, Please Choose again"+reset)
+            else:
+                print(red+"First Piece Choice is invalid, Please Choose again"+reset)
+
+        # checks if target is on the board
+        while True:
+            try:
+                xt = int(input("X of target: "))
+                yt = int(input("Y of target: "))
+            except ValueError:
+                print(red+"That is not a number"+reset)
+                break # Doesn't work as expected
+
+            if xt < 1 or xt > 8 or yt < 1 or yt > 8: 
+                print(red+"Choice is not on the board, Please Choose again"+reset)
+
+        # return verified inputs
+        return xs, ys, xt, yt 

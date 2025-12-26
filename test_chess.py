@@ -1,7 +1,7 @@
 # --- self_tests.py ---
 # This file contains all of my self made tests complete with Verbose Output
 # and Accert functionality
-from py_chess import draw, make_board
+from chess_funcs import draw, make_board
 from move_sets import get_piece, in_move_set, is_valid_move
 
 #TESTING VALUES
