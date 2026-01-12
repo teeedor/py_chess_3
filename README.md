@@ -1,44 +1,42 @@
-I'm getting back into programming and I need a intermediate project to practice my git and python skills.
+Project to brush up on git and python skills 
 
-Basic Plan for PyChess
+=== Basic Plan for PyChess ===
+                                   
+Pieces are stored in a 2d array  ((x,y),(color,piece))
 
-Pieces are stored in a 2d array 
-
-Will be drawn by a Draw() function
+Will be drawn by the Draw() function
 
 White starts, player chooses a move 
 
-Checks if its a valid move first based on move set, but then the current board state
-
-move is either valid or not, change the data structure to reflect the move and redraw the board
+Checks Validity
+    Move set
+    Board State
+    King in check
+        make sure move doesn't put your king in check
 
 add a scoreboard
 use a graphics library to render a prettier board
 
-CURRENT STATE
+=== CURRENT STATE ===
     Piece movesets complete
-    ROOK - DONE
-    BISHOP - DONE
-    KNIGHT - DONE
-    QUEEN - DONE
-    PAWN - NOT DONE
-    KING - NOT DONE
+    ALL - DONE
 
     Check Path for valid move
-    ROOK - DONE
-    BISHOP - DONE
-    QUEEN - DONE
-    KNIGHT - DONE
-    PAWN - NOT DONE
-    KING - NOT DONE
+    ALL - DONE
 
     Movement Tests
-    ROOK - DONE
-    BISHOP - DONE
-    QUEEN - DONE
-    KNIGHT - NOT DONE
-    PAWN - NOT DONE
-    KING - NOT DONE
+    ALL - DONE
     
-    Playing the game
-    NOT DONE
+    PLAYING THE GAME
+    Check for Valid input
+    Check for move validity on board
+    Check if move puts king in check
+    Reflect the move in the data structure
+    change score if needed
+    rotate the Turn
+
+=== FUTURE PLANS ===
+    Change from terminal Draw to window Draw with Tkinter
+    Have random Mode
+    Create new Types of Pieces (Research)
+    Create online multiplayer

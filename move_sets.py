@@ -13,7 +13,7 @@ from chess_funcs import get_piece
 red = "\033[91m"
 green = "\033[92m"
 reset = "\033[0m"
-VERBOSE = False
+VERBOSE = True
 VERBOSE_BASIC = True
 # get the piece at a location on the given board
 

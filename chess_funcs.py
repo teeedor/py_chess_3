@@ -102,58 +102,100 @@ def draw(board):
     print("\t    1 2 3 4 5 6 7 8") 
     print("\n") 
 
+def find_index(board,x,y):
+    index = next(
+        (i for i, t in enumerate(board) if t[0] == (x,y)),
+        "None"
+    )
+
+def remove_piece(board,x,y):
+    index = next(
+        (i for i, t in enumerate(board) if t[0] == (x,y)),
+        "None"
+    )
+    board = board.pop(index)
+
 #def draw_move_path(board,xs,ys,xt,yt):
     # this function does the same as the draw function,
     # but it will add a red path over the attempted move path
     # I may just modify the OG draw function to add this as a toggle
     
-def make_move(board,piece_index,xs,ys,xt,yt):
-    #if move is in moveset
-    if (in_move_set(board[piece_index][1][1],board[piece_index][1][0],xs,ys,xt,yt)):
-        #if move is allowed by board state
-        #move is to empty space
-        target_piece = get_piece(board,xt,yt)
-        source_piece = get_piece(board,xs,ys)
+def make_move(board,xs,ys,xt,yt):
+    target_filled = False
+    #get index of source and target Pieces if no target piece, set them both the same
+
+    # get index of moving piece
+    source_index = find_index(board,xs,ys)
+    if filled(board,xt,yt): # if theres a piece in the target
+        target_index = find_index(board,xt,yt) # get its Index
+        target_filled = True
+
+    #remove target from board and store it in case we need it for later 
+    if target_filled:
+        pass
+    else:
+
+        print("HERE 2")
+    #move source to targets loc
+    board = board + ((xt,yt),board[source_index][1])
+    return board
 
 def read_in_move(board,white_turn):
+    # Read in move start loc
+    #   Check that loc is on board
+    #   Check there is a piece at start loc
+    #   Check that it is same color as current mover
+    # Read in move end loc
+    #   Check that loc is on board
+    #   There is either no piece or other color at end loc
+    #   
     while True:
+        # Whose turn is it?
         if white_turn:
-            print("It is Whites turn, where would you like to move? ")
+            print("It is Whites turn, what piece would you like to move? ")
         else:
-            print("It is Blacks turn, where would you like to move? ")
+            print("It is Blacks turn, what piece would you like to move? ")
 
-        # Checks if player turn and piece being moved are same color
-        while True:
-            try:
-                xs = int(input("X of source: "))
-                ys = int(input("Y of source: "))
-            except ValueError:
-                print(red+"That is not a number"+reset)
-                break # Doesn't work as expected
+        # SOURCE
+        # Read in source loc
+        xs = int(input("X of source: "))
+        ys = int(input("Y of source: "))
 
-            source = get_piece(board,xs,ys)
-            if white_turn and source[0] == "W":
-                print(green+"Excellent Selection"+reset)
-                break 
-            elif not white_turn and source[0] == "B":
-                print(green+"Excellent Selection"+reset)
-                break
-            elif xs < 1 or xs > 8 or ys < 1 or ys > 8:
-                print(red+"Choice is not on the board, Please Choose again"+reset)
-            else:
-                print(red+"First Piece Choice is invalid, Please Choose again"+reset)
+        # Checks if source loc is on board
+        if (xs or ys) not in [1,2,3,4,5,6,7,8]:
+            print(red+"Either Not a number or not on the board, Try again"+reset)
+        else:
+            print(green+"Start loc input looks good"+reset)
+        
+        # Compares chosen piece to current mover color
+        source = get_piece(board,xs,ys)
 
-        # checks if target is on the board
-        while True:
-            try:
-                xt = int(input("X of target: "))
-                yt = int(input("Y of target: "))
-            except ValueError:
-                print(red+"That is not a number"+reset)
-                break # Doesn't work as expected
+        if white_turn and source[0] == "W":
+            print(green+"Excellent Selection (White)"+reset)
+        elif not white_turn and source[0] == "B":
+            print(green+"Excellent Selection (Black)"+reset)
+        else:
+            print(red+"Bad Selection, piece and mover color are different"+reset)
 
-            if xt < 1 or xt > 8 or yt < 1 or yt > 8: 
-                print(red+"Choice is not on the board, Please Choose again"+reset)
-
-        # return verified inputs
-        return xs, ys, xt, yt 
+        # TARGET
+        # Read in target loc
+        xt = int(input("X of target: "))
+        yt = int(input("Y of target: "))
+        
+        # Checks if target loc is on board
+        if (xt or yt) not in [1,2,3,4,5,6,7,8]:
+            print(red+"Either Not a number or not on the board, Try again"+reset)
+        else:
+            print(green+"End loc input looks good"+reset)
+        
+        # Loops piece selection if it doesn't succeed
+        if (xs and ys and xt and yt) in [1,2,3,4,5,6,7,8]:
+            # return verified inputs
+            print("All inputs valid, returning to main")
+            return xs, ys, xt, yt 
+        else:
+            #try inputs again
+            print("Something went wrong, enter your move again")
+            enter = input("Press Enter to try another piece")
+            os.system('cls') #Clear screen
+            draw(board)
