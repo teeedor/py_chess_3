@@ -3,7 +3,7 @@
 
 #import move_sets, chess_funcs 
 from test_chess import run_tests
-from chess_funcs import make_board, draw, read_in_move, get_piece, remove_piece, make_move
+from chess_funcs import make_board, draw, read_in_move, get_piece, make_move
 from move_sets import *
 
 # Run Tests
@@ -14,7 +14,7 @@ from move_sets import *
 # White goes first
 white_turn = True
 # Make Standard Game Board
-board = make_board(2)
+board = make_board(1)
 # Scores start at 0
 w_score = 0
 b_score = 0
@@ -27,7 +27,7 @@ val_p, val_k, val_b, val_r, val_q = 1, 3, 3, 5, 9
 #while(has_kings(board)): # still need to write this function
 while True: #only used for Testing 
     # Draw the Board
-    draw(board)
+    draw(board,turn_number,w_score,b_score)
     # Read in move from current player
     xs, ys, xt, yt = read_in_move(board,white_turn)
 
@@ -39,13 +39,18 @@ while True: #only used for Testing
 
     if in_move_set(ptype,pcolor,xs,ys,xt,yt) and is_valid_move(board,xs,ys,xt,yt):
         print("Valid "+pcolor+" / "+ptype+" Move")
-        #determine piece type and add to score
 
         #CURRENT PROGRAMMING LOCATION
-        board = make_move(board,xs,ys,xt,yt) 
+        board, capture_score = make_move(board,xs,ys,xt,yt) 
         
+        # add capture score to current player
+        if white_turn:
+            w_score = w_score + capture_score
+        else:
+            b_score = b_score + capture_score
+
         # increment Turn count
-        turn+=1
+        turn_number+=1
 
         # if piece is captured, increment score
         # Rotate the Turn 

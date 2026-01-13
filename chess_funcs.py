@@ -45,17 +45,16 @@ def filled(board,x,y):
     for piece in board:
         if piece[0][0] == x and piece[0][1] == y: 
             return True
-        else:
-            return False
+    return False
+
 
 def make_board(mode):
     # all tests in self_test.py generate their own custom boards
     board = []
     if mode == 1:
         #sparsly populated board
-        board = [((6,3),("W","H")),((5,2),("W","P")),((3,2),("W","P")),((2,3),("B","h")),
-                 ((6,6),("B","r")),
-                 ((4,4),("W","H")),((6,2),("B","b")),((2,2),("W","B")),((2,6),("B","b"))]
+        board = [((6,3),("W","H")),((5,2),("W","Q")),((3,2),("W","B")),((2,3),("W","R")),
+                 ((4,4),("B","h")),((6,2),("B","q")),((2,2),("B","b")),((2,6),("B","r"))]
         return board
     elif mode == 2:
         #full standard board
@@ -90,10 +89,9 @@ def draw_line(y_val, board):
         output += string
     print("\t  "+str(y_val) + output)
 
-def draw(board):
+def draw(board,turn_number,w_score,b_score):
     #os.system('cls') #Clear screen
     #Draw each horizontal line of the board from top to bottom
-
     print("\n") 
     for y in range(8,0,-1):
         #Draw entire y_val line
@@ -101,44 +99,66 @@ def draw(board):
     #Coordinate Marks
     print("\t    1 2 3 4 5 6 7 8") 
     print("\n") 
+    print("Turn # "+str(turn_number))
+    print("White Score: "+str(w_score)+"\t Black Score: "+str(b_score)+"\n")
 
 def find_index(board,x,y):
     index = next(
         (i for i, t in enumerate(board) if t[0] == (x,y)),
-        "None"
+        -1 
     )
-
-def remove_piece(board,x,y):
-    index = next(
-        (i for i, t in enumerate(board) if t[0] == (x,y)),
-        "None"
-    )
-    board = board.pop(index)
-
+    return index
 #def draw_move_path(board,xs,ys,xt,yt):
     # this function does the same as the draw function,
     # but it will add a red path over the attempted move path
     # I may just modify the OG draw function to add this as a toggle
     
+def get_piece_value(board,x,y):
+    # return the value of the piece at location
+    val_p, val_h, val_b, val_r, val_q = 1, 3, 3, 5, 9
+    value = 0
+
+    p = get_piece(board,x,y)
+    print(p)
+    if p[1] in ("p", "P"):
+        value = val_p 
+    elif p[1] in ("h", "H"):
+        value = val_h 
+    elif p[1] in ("b", "B"):
+        value = val_b 
+    elif p[1] in ("r", "R"):
+        value = val_r 
+    elif p[1] in ("q", "Q"):
+        value = val_q 
+    return value
+
 def make_move(board,xs,ys,xt,yt):
     target_filled = False
+    capture_score = 0
+
     #get index of source and target Pieces if no target piece, set them both the same
 
     # get index of moving piece
     source_index = find_index(board,xs,ys)
+    if source_index == -1:
+        print("Piece not Found")
+    else:
+        print("Piece Found index: "+str(source_index))
     if filled(board,xt,yt): # if theres a piece in the target
         target_index = find_index(board,xt,yt) # get its Index
-        target_filled = True
+        print("Target Piece Index: "+str(target_index))
+        capture_score = get_piece_value(board,xt,yt) # find piece capture value
+        print("Capture Score: "+str(capture_score))
+        board.pop(target_index) # remove piece from board
 
-    #remove target from board and store it in case we need it for later 
-    if target_filled:
-        pass
-    else:
-
-        print("HERE 2")
-    #move source to targets loc
-    board = board + ((xt,yt),board[source_index][1])
-    return board
+    # recalculate Source Index
+    source_index = find_index(board,xs,ys)
+    source_piece = get_piece(board,xs,ys)
+    # move source to targets loc
+    board.append(((xt,yt),source_piece))
+    # remove Source piece from board
+    board.pop(source_index)
+    return board, capture_score
 
 def read_in_move(board,white_turn):
     # Read in move start loc
@@ -158,8 +178,8 @@ def read_in_move(board,white_turn):
 
         # SOURCE
         # Read in source loc
-        xs = int(input("X of source: "))
-        ys = int(input("Y of source: "))
+        xs = int(input("X of source: ").strip() or 0)
+        ys = int(input("Y of source: ").strip() or 0)
 
         # Checks if source loc is on board
         if (xs or ys) not in [1,2,3,4,5,6,7,8]:
@@ -179,8 +199,8 @@ def read_in_move(board,white_turn):
 
         # TARGET
         # Read in target loc
-        xt = int(input("X of target: "))
-        yt = int(input("Y of target: "))
+        xt = int(input("X of target: ").strip() or 0)
+        yt = int(input("Y of target: ").strip() or 0)
         
         # Checks if target loc is on board
         if (xt or yt) not in [1,2,3,4,5,6,7,8]:
@@ -197,5 +217,3 @@ def read_in_move(board,white_turn):
             #try inputs again
             print("Something went wrong, enter your move again")
             enter = input("Press Enter to try another piece")
-            os.system('cls') #Clear screen
-            draw(board)
