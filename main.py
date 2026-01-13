@@ -32,18 +32,16 @@ while True: #only used for Testing
     xs, ys, xt, yt = read_in_move(board,white_turn)
 
     # At this point, we know the locations we are getting have to be on the board
-    # Now we need to see if these inputs are valid moves
-    # TRUE
-    #   Perform move and change board and all necessary variables
-    # FALSE
-    #   determine what is false and read move again
+
+    # Get piece color and type for checking 
     pcolor = get_piece(board, xs, ys)[0]
     ptype = get_piece(board, xs, ys)[1]
 
     if in_move_set(ptype,pcolor,xs,ys,xt,yt) and is_valid_move(board,xs,ys,xt,yt):
         print("Valid "+pcolor+" / "+ptype+" Move")
         #determine piece type and add to score
-        
+
+        #CURRENT PROGRAMMING LOCATION
         board = make_move(board,xs,ys,xt,yt) 
         
         # increment Turn count
