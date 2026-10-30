@@ -13,8 +13,8 @@ from move_sets import *
 # Initial Variables
 # White goes first
 white_turn = True
-# Make Standard Game Board
-board = make_board(1)
+# Make Standard Game Board 1=testing 2=standard
+board = make_board(2)
 # Scores start at 0
 w_score = 0
 b_score = 0
@@ -48,9 +48,8 @@ while True: #only used for Testing
             w_score = w_score + capture_score
         else:
             b_score = b_score + capture_score
-
-        # increment Turn count
-        turn_number+=1
+            # increment Turn count only on blacks turn
+            turn_number+=1
 
         # if piece is captured, increment score
         # Rotate the Turn 
